@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="你不懂JS,Promises," />
 
 
 
@@ -87,15 +87,22 @@
 
 
 
-<meta name="description" content="烧不死的鸟才是凤凰">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Phoenix's Blog">
-<meta property="og:url" content="http://feinikes.github.io/index.html">
+<meta name="description" content="Promises在第二章中，我们定位了在使用回调表达程序异步性和管理并发的两个主要类别的不足：缺乏顺序性和缺乏可靠性。现在我们更亲近地理解了问题，是时候将我们的注意力转向解决它们的模式了。
+我们首先想要解决的是 控制倒转 问题，信任是如此脆弱而且是如此的容易丢失。
+回想一下，我们将我们的程序的延续包装进一个回调函数中，将这个回调交给另一个团体（甚至是潜在的外部代码），并双手合十祈祷它会做正确的事情">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Promises">
+<meta property="og:url" content="http://feinikes.github.io/2017/06/15/Promises/index.html">
 <meta property="og:site_name" content="Phoenix's Blog">
-<meta property="og:description" content="烧不死的鸟才是凤凰">
+<meta property="og:description" content="Promises在第二章中，我们定位了在使用回调表达程序异步性和管理并发的两个主要类别的不足：缺乏顺序性和缺乏可靠性。现在我们更亲近地理解了问题，是时候将我们的注意力转向解决它们的模式了。
+我们首先想要解决的是 控制倒转 问题，信任是如此脆弱而且是如此的容易丢失。
+回想一下，我们将我们的程序的延续包装进一个回调函数中，将这个回调交给另一个团体（甚至是潜在的外部代码），并双手合十祈祷它会做正确的事情">
+<meta property="og:updated_time" content="2017-06-15T05:15:41.457Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Phoenix's Blog">
-<meta name="twitter:description" content="烧不死的鸟才是凤凰">
+<meta name="twitter:title" content="Promises">
+<meta name="twitter:description" content="Promises在第二章中，我们定位了在使用回调表达程序异步性和管理并发的两个主要类别的不足：缺乏顺序性和缺乏可靠性。现在我们更亲近地理解了问题，是时候将我们的注意力转向解决它们的模式了。
+我们首先想要解决的是 控制倒转 问题，信任是如此脆弱而且是如此的容易丢失。
+回想一下，我们将我们的程序的延续包装进一个回调函数中，将这个回调交给另一个团体（甚至是潜在的外部代码），并双手合十祈祷它会做正确的事情">
 
 
 
@@ -123,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://feinikes.github.io/"/>
+  <link rel="canonical" href="http://feinikes.github.io/2017/06/15/Promises/"/>
 
 
 
 
 
-  <title> Phoenix's Blog </title>
+  <title> Promises | Phoenix's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -154,9 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -249,9 +254,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -281,10 +286,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/06/15/Promises/" itemprop="url">
-                  Promises
-                </a>
+                Promises
               
             
           </h1>
@@ -357,9 +359,7 @@
       
 
       
-        
-          
-            <h1 id="Promises"><a href="#Promises" class="headerlink" title="Promises"></a>Promises</h1><p>在第二章中，我们定位了在使用回调表达程序异步性和管理并发的两个主要类别的不足：缺乏顺序性和缺乏可靠性。现在我们更亲近地理解了问题，是时候将我们的注意力转向解决它们的模式了。</p>
+        <h1 id="Promises"><a href="#Promises" class="headerlink" title="Promises"></a>Promises</h1><p>在第二章中，我们定位了在使用回调表达程序异步性和管理并发的两个主要类别的不足：缺乏顺序性和缺乏可靠性。现在我们更亲近地理解了问题，是时候将我们的注意力转向解决它们的模式了。</p>
 <p>我们首先想要解决的是 <em>控制倒转</em> 问题，信任是如此脆弱而且是如此的容易丢失。</p>
 <p>回想一下，我们将我们的程序的延续包装进一个回调函数中，将这个回调交给另一个团体（甚至是潜在的外部代码），并双手合十祈祷它会做正确的事情并调用这个回调。</p>
 <p>我们这么做是因为我们想说，“这是 <em>稍后</em> 将要发生的事，在当前的步骤完成之后。”</p>
@@ -846,938 +846,74 @@
 <p>它们没有摆脱回调，而是重新定向了这些回调的组织安排方式，是它成为一种坐落于我们和其他工具之间的可靠的中间机制。</p>
 <p>Promise链还开始以顺序的风格定义了一种更好的（当然，还不完美）表达异步流程的方式，它帮我们的大脑更好的规划和维护异步JS代码。我们会在下一章中看到一个更好的解决 <em>这个</em> 问题的方法！</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://feinikes.github.io/2017/06/15/回调/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Phoenix">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Phoenix's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/15/回调/" itemprop="url">
-                  回调
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T13:08:12+08:00">
-                2017-06-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/异步与性能/" itemprop="url" rel="index">
-                    <span itemprop="name">异步与性能</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/你不懂JS/" rel="tag"># 你不懂JS</a>
           
-
+            <a href="/tags/Promises/" rel="tag"># Promises</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          
-            <h1 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h1><p>在第一章中，我们探讨了JavaScript中关于异步编程的术语和概念。我们的焦点是理解驱动所有“事件”（异步函数调用）的单线程（一次一个）事件轮询队列。我们还探讨了各种解释 <em>同时</em> 运行的事件链，或“进程”（任务， 函数调用等）间的关系的并发模式。</p>
-<p>我们在第一章的所有例子中，将函数作为独立的，不可分割的操作单位使用，在这些函数内部语句按照可预知的顺序运行（在编译器水平之上！），但是在函数顺序水平上，事件（也就是异步函数调用）可以以各种顺序发生。</p>
-<p>在所有这些情况中，函数都是一个“回调”。因为无论什么时候事件轮询队列中的事件被处理时，这个函数都作为事件轮询“调用并返回”程序的目标。</p>
-<p>正如你观察到的，在JS程序中，回调是到目前为止最常见的表达和管理异步的方式。确实，在JavaScript语言中回调是最基础的异步模式。</p>
-<p>无数的JS程序，即便是最精巧最复杂的程序，都曾经除了回调外不依靠任何其他异步模式而编写（当然，和我们在第一章中探讨的并发互动模式一起）。回调函数是JavaScript的异步苦工，而且它工作得相当好。</p>
-<p>除了……回调并不是没有缺点。许多开发者都对 <em>Promises</em> 提供的更好的异步模式感到兴奋不已。但是如果你不明白它在抽象什么，和为什么抽象，是不可能有效利用任何抽象机制的。</p>
-<p>在本章中，我们将深入探讨这些话题，来说明为什么更精巧的异步模式（在本书的后续章节中探讨）是必要和被期望的。</p>
-<h2 id="延续"><a href="#延续" class="headerlink" title="延续"></a>延续</h2><p>让我们回到在第一章中开始的异步回调的例子，但让我稍微修改它一下来画出重点：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A</span></div><div class="line">ajax( <span class="string">".."</span>, <span class="function"><span class="keyword">function</span>(<span class="params">..</span>)</span>&#123;</div><div class="line">	<span class="comment">// C</span></div><div class="line">&#125; );</div><div class="line"><span class="comment">// B</span></div></pre></td></tr></table></figure>
-<p><code>// A</code>和<code>// B</code>代表程序的前半部分（也就是 <em>现在</em>），<code>// C</code>标识了程序的后半部分（也就是 <em>稍后</em>）。前半部分立即执行，然后会出现一个不知多久的“暂停”。在未来某个时刻，如果Ajax调用完成了，那么程序会回到它刚才离开的地方，并 <em>继续</em> 执行后半部分。</p>
-<p>换句话说，回调函数包装或封装了程序的 <em>延续</em>。</p>
-<p>让我们把代码弄得更简单一些：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A</span></div><div class="line">setTimeout( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="comment">// C</span></div><div class="line">&#125;, <span class="number">1000</span> );</div><div class="line"><span class="comment">// B</span></div></pre></td></tr></table></figure>
-<p>稍停片刻然后问你自己，你将如何描述（给一个不那么懂JS工作方式的人）这个程序的行为。来吧，大声说出来。这个很好的练习将使我的下一个观点更鲜明。</p>
-<p>现在大多数读者可能在想或说着这样的话：“做A，然后设置一个等待1000毫秒的定时器，一旦它触发，就做C”。与你的版本有多接近？</p>
-<p>你可能已经发觉了不对劲儿的地方，给了自己一个修正版：“做A，设置一个1000毫秒的定时器，然后做B，然后在超时事件触发后，做C”。这比第一个版本更准确。你能发现不同之处吗？</p>
-<p>虽然第二个版本更准确，但是对于以一种将我们的大脑匹配代码，代码匹配JS引擎的方式讲解这段代码来说，这两个版本都是不足的。这里的鸿沟既是微小的也是巨大的，而且是理解回调作为异步表达和管理的缺点的关键。</p>
-<p>只要我们以回调函数的方式引入一个延续（或者像许多程序员那样引入几十个！），我们就允许了一个分歧在我们的大脑如何工作和代码将运行的方式之间形成。当这两者背离时，我们的代码就不可避免地陷入这样的境地：更难理解，更难推理，更难调试，和更难维护。</p>
-<h2 id="顺序的大脑"><a href="#顺序的大脑" class="headerlink" title="顺序的大脑"></a>顺序的大脑</h2><p>我相信大多数读者都曾经听某个人说过（甚至你自己就曾这么说），“我能一心多用”。试图表现得一心多用的效果包含幽默（孩子们的拍头揉肚子游戏），平常的行为（边走边嚼口香糖），和彻头彻尾的危险（开车时发微信）。</p>
-<p>但我们是一心多用的人吗？我们真的能执行两个意识，有意地一起行动并在完全同一时刻思考/推理它们两个吗？我们最高级的大脑功能有并行的多线程功能吗？</p>
-<p>答案可能令你吃惊：<strong>可能不是这样。</strong></p>
-<p>我们的大脑其实就不是这样构成的。我们中大多数人（特别是A型人格！）都是自己不情愿承认的一个一心一用者。其实我们只能在任一给定的时刻考虑一件事情。</p>
-<p>我不是说我们所有的下意识，潜意识，大脑的自动功能，比如心跳，呼吸，和眨眼。那些都是我们延续生命的重要任务，我们不会有意识地给它们分配大脑的能量。谢天谢地，当我们在3分钟内第15次刷朋友圈时，我们的大脑在后台（线程！）继续着这些重要任务。</p>
-<p>相反我们讨论的是在某时刻我们的意识最前线的任务。对我来说，是现在正在写这本书。我还在这完全同一个时刻做其他高级的大脑活动吗？不，没有。我很快而且容易分心——在这最后的几段中有几十次了！</p>
-<p>当我们 <em>模拟</em> 一心多用时，比如试着在打字的同时和朋友或家人通电话，实际上我们表现得更像一个快速环境切换器。换句话说，我们快速交替地在两个或更多任务间来回切换，在微小，快速的区块中 <em>同时</em> 处理每个任务。我们做的是如此之快，以至于从外界看开我们在 <em>平行地</em> 做这些事情。</p>
-<p>难道这听起来不像异步事件并发吗（就像JS中发生的那样）？！如果不，回去再读一遍第一章！</p>
-<p>事实上，将庞大复杂的神经内科世界简化为我希望可以在这里讨论的东西的一个方法是，我们的大脑工作起来有点儿像事件轮询队列。</p>
-<p>如果你把我打得每一个字（或词）当做一个单独的异步事件，那么现在这一句话上就有十几处地方，可以让我的大脑被其他的事件打断，比如我的感觉，甚至只是我随机的想法。</p>
-<p>我不会在每个可能的地方被打断并被拉到其他的“处理”上去（谢天谢地——要不这本书永远也写不完了！）。但是它发生得也足够频繁，以至于我感到我的大脑几乎持续不断地切换到各种不同的环境（也就是“进程”）。而且这和JS引擎可能会感觉到的十分相像。</p>
-<h3 id="执行与计划"><a href="#执行与计划" class="headerlink" title="执行与计划"></a>执行与计划</h3><p>好了，这么说来我们的大脑可以被认为是运行在一个单线程事件轮询队列中，就像JS引擎那样。这听起来是个不错的匹配。</p>
-<p>但是我们需要比我们刚才分析的更加细致入微。在我们如何计划各种任务，和我们的大脑实际如何运行这些任务之间，有一个巨大，明显的不同。</p>
-<p>再一次，回到这篇文章的写作的比拟上来。在我心里的粗略计划轮廓是继续写啊写，顺序地经过一系列在我思想中定好的点。我没有在这次写作期间计划任何的打扰或非线性的活动。但无论如何，我的大脑依然一直不停地切换。</p>
-<p>即便在操作级别上我们的大脑是异步事件的，但我们还是用一种顺序的，同步的方式计划任务。“我得去商店，然后买些牛奶，然后去干洗店”。</p>
-<p>你会注意到这种高级思维（规划）方式看起来不是那么“异步”。事实上，我们几乎很少会故意只用事件的形式思考。相反，我们小心，顺序地（A然后B然后C）计划，而且我们假设一个区间有某种临时的阻塞迫使B等待A，使C等待B。</p>
-<p>当开发者编写代码时，他们规划一组将要发生的动作。如果他们是合格的开发者，他们会 <strong>小心地规划</strong>。比如“我需要将<code>z</code>的值设为<code>x</code>的值，然后将<code>x</code>的值设为<code>y</code>的值”。</p>
-<p>当我们编写同步代码时，一个语句接一个语句，它工作起来就像我们的跑腿todo清单：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 交换`x`与`y`(通过临时变量`z`)</span></div><div class="line">z = x;</div><div class="line">x = y;</div><div class="line">y = z;</div></pre></td></tr></table></figure>
-<p>这三个赋值语句是同步的，所以<code>x=y</code>会等待<code>z=x</code>完成，而<code>y=z</code>会相应地等待<code>x=y</code>完成。另一种说法是这三个语句临时地按照特定的顺序绑在一起执行，一个接一个。幸好我们不必在这里关心任何异步事件的细节。如果我们关心，代码很快就会变得非常复杂！</p>
-<p>如果同步的大脑规划和同步的代码语句匹配的很好，那么我们的大脑能把异步代码规划得多好呢？</p>
-<p>事实证明，我们在代码中表达异步的方式（用回调）和我们同步的大脑规划行为根本匹配的不是很好。</p>
-<p>你能实际想象一下像这样规划你的跑腿todo清单的思维线索吗？</p>
-<blockquote>
-<p>“我得去趟商店，但是我确信在路上我会接到一个电话，于是‘嗨，妈妈’，然后她开始讲话，我会在GPS上搜索商店的位置，但那会花几分钟加载，所以我把收音机音量调小以便听到妈妈讲话，然后我发现我忘了穿夹克而且外面很冷，但没关系，继续开车并和妈妈说话，然后安全带警报提醒我要系好，于是‘是的，妈，我系着安全带呢，我总是系着安全带！’。啊，GPS终于得到方向了，现在……”</p>
-</blockquote>
-<p>虽然作为我们如何度过自己的一天，思考以什么顺序做什么事的规划听起来很荒唐，但这正是我们大脑在功能层面运行的方式。记住，这不是一心多用，而只是快速的环境切换。</p>
-<p>我们这些开发者编写异步事件代码困难的原因，特别是当我们只有回调手段可用时，就是意识思考/规划的流动对我们大多数人是不自然的。</p>
-<p>我们用一步接一步的方式思考，但是一旦我们从同步走向异步，在代码中可以用的工具（回调）不是以一步接一步的方式表达的。</p>
-<p>而且这就是为什么正确编写和推理使用回调的异步JS代码是如此困难：因为它不是我们的大脑进行规划的工作方式。</p>
-<p><strong>注意：</strong> 唯一比不知道为什么代码不好用更糟糕的是，从一开始就不知道为什么代码好用！这是一种经典的“纸牌屋”心理：“它好用，但不知为什，所以大家都别碰！”你可能听说过，“他人即地狱”（萨特），而程序员们模仿这种说法，“他人的代码即地狱”。我相信：“不明白我自己的代码才是地狱。”而回调正是肇事者之一。</p>
-<h3 id="嵌套-链接的回调"><a href="#嵌套-链接的回调" class="headerlink" title="嵌套/链接的回调"></a>嵌套/链接的回调</h3><p>考虑下面的代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">listen( <span class="string">"click"</span>, <span class="function"><span class="keyword">function</span> <span class="title">handler</span>(<span class="params">evt</span>)</span>&#123;</div><div class="line">	setTimeout( <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		ajax( <span class="string">"http://some.url.1"</span>, <span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">text</span>)</span>&#123;</div><div class="line">			<span class="keyword">if</span> (text == <span class="string">"hello"</span>) &#123;</div><div class="line">				handler();</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (text == <span class="string">"world"</span>) &#123;</div><div class="line">				request();</div><div class="line">			&#125;</div><div class="line">		&#125; );</div><div class="line">	&#125;, <span class="number">500</span>) ;</div><div class="line">&#125; );</div></pre></td></tr></table></figure>
-<p>你很可能一眼就能认出这样的代码。我们得到了三个嵌套在一起的函数链，每一个函数都代表异步序列（任务，“进程”）的一个步骤。</p>
-<p>这样的代码常被称为“回调地狱（callback hell）”，有时也被称为“末日金字塔（pyramid of doom）”（由于嵌套的缩进使它看起来像一个放倒的三角形）。</p>
-<p>但是“回调地狱”实际上与嵌套/缩进几乎无关。它是一个深刻得多的问题。我们将继续在本章剩下的部分看到它为什么和如何成为一个问题。</p>
-<p>首先，我们等待“click”事件，然后我们等待定时器触发，然后我们等待Ajax应答回来，就在这时它可能会将所有这些再做一遍。</p>
-<p>猛地一看，这段代码的异步性质可能看起来与顺序的大脑规划相匹配。</p>
-<p>首先（<em>现在</em>），我们：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">listen( <span class="string">".."</span>, <span class="function"><span class="keyword">function</span> <span class="title">handler</span>(<span class="params">..</span>)</span>&#123;</div><div class="line">	<span class="comment">// ..</span></div><div class="line">&#125; );</div></pre></td></tr></table></figure>
-<p><em>稍后</em>，我们：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">setTimeout( <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">..</span>)</span>&#123;</div><div class="line">	<span class="comment">// ..</span></div><div class="line">&#125;, <span class="number">500</span>) ;</div></pre></td></tr></table></figure>
-<p>再 <em>稍后</em>，我们：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ajax( <span class="string">".."</span>, <span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">..</span>)</span>&#123;</div><div class="line">	<span class="comment">// ..</span></div><div class="line">&#125; );</div></pre></td></tr></table></figure>
-<p>最后（最 <em>稍后</em>），我们：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( .. ) &#123;</div><div class="line">	<span class="comment">// ..</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span> ..</div></pre></td></tr></table></figure>
-<p>不过用这样的方式线性推导这段代码有几个问题。</p>
-<p>首先，这个例子中我们的步骤在一条顺序的线上（1，2，3，和4……）是一个巧合。在真实的异步JS程序中，经常会有很多噪音把事情搞乱，在我们从一个函数跳到下一个函数时不得不在大脑中把这些噪音快速地演练一遍。理解这样满载回调的异步流程不是不可能，但绝不自然或容易，即使是经历了很多练习后。</p>
-<p>而且，有些更深层的，只是在这段代码中不明显的东西搞错了。让我们建立另一个场景（假想代码）来展示它：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">doA( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	doB();</div><div class="line"></div><div class="line">	doC( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		doD();</div><div class="line">	&#125; )</div><div class="line"></div><div class="line">	doE();</div><div class="line">&#125; );</div><div class="line"></div><div class="line">doF();</div></pre></td></tr></table></figure>
-<p>虽然根据经验你将正确地指出这些操作的真实顺序，但我打赌它第一眼看上去有些使人糊涂，而且需要一些协调的思维周期才能搞明白。这些操作将会以这种顺序发生：</p>
-<ul>
-<li><code>doA()</code></li>
-<li><code>doF()</code></li>
-<li><code>doB()</code></li>
-<li><code>doC()</code></li>
-<li><code>doE()</code></li>
-<li><code>doD()</code></li>
-</ul>
-<p>你是在第一次浏览这段代码就看明白的吗？</p>
-<p>好吧，你们肯定有些人在想我在函数的命名上不公平，故意引导你误入歧途。我发誓我只是按照从上到下出现的顺序命名的。不过让我再试一次：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">doA( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	doC();</div><div class="line"></div><div class="line">	doD( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		doF();</div><div class="line">	&#125; )</div><div class="line"></div><div class="line">	doE();</div><div class="line">&#125; );</div><div class="line"></div><div class="line">doB();</div></pre></td></tr></table></figure>
-<p>现在，我以他们实际执行的顺序用字母命名了。但我依然要打赌，即便是现在对这个场景有经验的情况下，大多数读者追踪<code>A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; F</code>的顺序并不是自然而然的。你的眼睛肯定在这段代码中上上下下跳了许多次，对吧？</p>
-<p>就算它对你来说都是自然的，这里依然还有一个可能肆虐的灾难。你能发现它是什么吗？</p>
-<p>如果<code>doA(..)</code>或<code>doD(..)</code>实际上不是如我们明显地假设的那样，不是异步的呢？嗯，现在顺序不同了。如果它们都是同步的（也许仅仅有时是这样，根据当时程序所处的条件而定），现在的顺序是<code>A -&gt; C -&gt; D -&gt; F -&gt; E -&gt; B</code>。</p>
-<p>你在背景中隐约听到的声音，正是成千上万双手掩面的JS开发者的叹息。</p>
-<p>嵌套是问题吗？是它使追踪异步流程变得这么困难吗？当然，有一部分是。</p>
-<p>但是让我不用嵌套重写一遍前面事件/超时/Ajax嵌套的例子：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">listen( <span class="string">"click"</span>, handler );</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handler</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	setTimeout( request, <span class="number">500</span> );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	ajax( <span class="string">"http://some.url.1"</span>, response );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">text</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span> (text == <span class="string">"hello"</span>) &#123;</div><div class="line">		handler();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (text == <span class="string">"world"</span>) &#123;</div><div class="line">		request();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样的代码组织形式几乎看不出来有前一种形式的嵌套/缩进困境，但它的每一处依然容易受到“回调地狱”的影响。为什么呢？</p>
-<p>当我们线性地（顺序地）推理这段代码，我们不得不从一个函数跳到下一个函数，再跳到下一个函数，并在代码中弹来弹去以“看到”顺序流。并且要记住，这个简化的代码风格是某种最佳情况。我们都知道真实的JS程序代码经常更加神奇地错综复杂，使这样量级的顺序推理更加困难。</p>
-<p>另一件需要注意的事是：为了将第2，3，4步链接在一起使他们相继发生，回调独自给我们的启示是将第2步硬编码在第1步中，将第3步硬编码在第2步中，将第4步硬编码在第3步中，如此继续。硬编码不一定是一件坏事，如果第2步应当总是在第3步之前真的是一个固定条件。</p>
-<p>不过硬编码绝对会使代码变得更脆弱，因为它不考虑任何可能使在步骤前行的过程中出现偏差的异常情况。举个例子，如果第2步失败了，第3步永远不会到达，第2步也不会重试，或者移动到一个错误处理流程上，等等。</p>
-<p>所有这些问题你都 <em>可以</em> 手动硬编码在每一步中，但那样的代码总是重复性的，而且不能在其他步骤或你程序的其他异步流程中复用。</p>
-<p>即便我们的大脑可能以顺序的方式规划一系列任务（这个，然后这个，然后这个），但我们大脑运行的事件的性质，使恢复/重试/分流这样的流程控制几乎毫不费力。如果你出去购物，而且你发现你把购物单忘在家里了，这并不会因为你没有提前计划这种情况而结束这一天。你的大脑会很容易地绕过这个小问题：你回家，取购物单，然后回头去商店。</p>
-<p>但是手动硬编码的回调（甚至带有硬编码的错误处理）的脆弱本性通常不那么优雅。一旦你最终指明了（也就是提前规划好了）所有各种可能性/路径，代码就会变得如此复杂以至于几乎不能维护或更新。</p>
-<p><strong>这</strong> 才是“回调地狱”想表达的！嵌套/缩进基本上一个余兴表演，转移注意力的东西。</p>
-<p>如果以上这些还不够，我们还没有触及两个或更多这些回调延续的链条 <em>同时</em> 发生会怎么样，或者当第三步分叉称为带有大门或门闩的“并行”回调，或者……我的天哪，我脑子疼，你呢？</p>
-<p>你抓住这里的重点了吗？我们顺序的，阻塞的大脑规划行为和面向回调的异步代码不能很好地匹配。这就是需要清楚地阐明的关于回调的首要缺陷：它们在代码中表达异步的方式，是需要我们的大脑不得不斗争才能保持一致的。</p>
-<h2 id="信任问题"><a href="#信任问题" class="headerlink" title="信任问题"></a>信任问题</h2><p>在顺序的大脑规划和JS代码中回调驱动的异步处理间的不匹配只是关于回调的问题的一部分。还有一些更深刻的问题值得担忧。</p>
-<p>让我们再一次重温这个概念——回调函数是我们程序的延续（也就是程序的第二部分）：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A</span></div><div class="line">ajax( <span class="string">".."</span>, <span class="function"><span class="keyword">function</span>(<span class="params">..</span>)</span>&#123;</div><div class="line">	<span class="comment">// C</span></div><div class="line">&#125; );</div><div class="line"><span class="comment">// B</span></div></pre></td></tr></table></figure>
-<p><code>// A</code>和<code>// B</code><em>现在</em> 发生，在JS主程序的直接控制之下。但是<code>// C</code>被推迟到 <em>稍后</em> 再发生，并且在另一部分的控制之下——这里是<code>ajax(..)</code>函数。在基本的感觉上，这样的控制交接一般不会让程序产生很多问题。</p>
-<p>但是不要被这种控制切换不是什么大事的罕见情况欺骗了。事实上，它是回调驱动的设计的最可怕的（也是最微妙的）问题。这个问题围绕着一个想法展开：有时<code>ajax(..)</code>（或者说你向之提交回调的部分）不是你写的函数，或者不是你可以直接控制的函数。很多时候它是一个由第三方提供的工具。</p>
-<p>当你把你程序的一部分拿出来并把它执行的控制权移交给另一个第三方时，我们称这种情况为“控制倒转”。在你的代码和第三方工具之间有一个没有明言的“契约”——一组你期望被维护的东西。</p>
-<h3 id="五个回调的故事"><a href="#五个回调的故事" class="headerlink" title="五个回调的故事"></a>五个回调的故事</h3><p>为什么这件事情很重要可能不是那么明显。让我们来构建一个夸张的场景来生动地描绘一下信任危机。</p>
-<p>想象你是一个开发者，正在建造一个贩卖昂贵电视的网站的结算系统。你已经将结算系统的各种页面顺利地制造完成。在最后一个页面，当用户点解“确定”购买电视时，你需要调用一个第三方函数（假如由一个跟踪分析公司提供），以便使这笔交易能够被追踪。</p>
-<p>你注意到它们提供的是某种异步追踪工具，也许是为了最佳的性能，这意味着你需要传递一个回调函数。在你传入的这个程序的延续中，有你最后的代码——划客人的信用卡并显示一个感谢页面。</p>
-<p>这段代码可能看起来像这样：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">analytics.trackPurchase( purchaseData, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	chargeCreditCard();</div><div class="line">	displayThankyouPage();</div><div class="line">&#125; );</div></pre></td></tr></table></figure>
-<p>足够简单，对吧？你写好代码，测试它，一切正常，然后你把它部署到生产环境。大家都很开心！</p>
-<p>6个月过去了，没有任何问题。你几乎已经忘了你曾写过的代码。一天早上，工作之前你先在咖啡店坐坐，悠闲地享用着你的拿铁，直到你接到老板慌张的电话要求你立即扔掉咖啡并冲进办公室。</p>
-<p>当你到达时，你发现一位高端客户为了买同一台电视信用卡被划了5次，而且可以理解，他不高兴。客服已经道了歉并开始办理退款。但你的老板要求知道这是怎么发生的。“我们没有测试过这样的情况吗！？”</p>
-<p>你甚至不记得你写过的代码了。但你还是往回挖掘试着找出是什么出错了。</p>
-<p>在分析过一些日志之后，你得出的结论是，唯一的解释是分析工具不知怎么的，由于某些原因，将你的回调函数调用了5次而非一次。他们的文档中没有任何东西提到此事。</p>
-<p>十分令人沮丧，你联系了客户支持，当然他们和你一样惊讶。他们同意将此事向上提交至开发者，并许诺给你回复。第二天，你收到一封很长的邮件解释他们发现了什么，然后你将它转发给了你的老板。</p>
-<p>看起来，分析公司的开发者曾经制作了一些实验性的代码，在一定条件下，将会每秒重试一次收到的回调，在超时之前共计5秒。他们从没想要把这部分推到生产环境，但不知怎地他们这样做了，而且他们感到十分难堪而且抱歉。然后是许多他们如何定位错误的细节，和他们将要如何做以保证此事不再发生。等等，等等。</p>
-<p>后来呢？</p>
-<p>你找你的老板谈了此事，但是他对事情的状态不是感觉特别舒服。他坚持，而且你也勉强地同意，你不能再相信 <em>他们</em> 了（咬到你的东西），而你将需要指出如何保护放出的代码，使它们不再受这样的漏洞威胁。</p>
-<p>修修补补之后，你实现了一些如下的特殊逻辑代码，团队中的每个人看起来都挺喜欢：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tracked = <span class="literal">false</span>;</div><div class="line"></div><div class="line">analytics.trackPurchase( purchaseData, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span> (!tracked) &#123;</div><div class="line">		tracked = <span class="literal">true</span>;</div><div class="line">		chargeCreditCard();</div><div class="line">		displayThankyouPage();</div><div class="line">	&#125;</div><div class="line">&#125; );</div></pre></td></tr></table></figure>
-<p><strong>注意：</strong> 对读过第一章的你来说这应当很熟悉，因为我们实质上创建了一个门闩来处理我们的回调被并发调用多次的情况。</p>
-<p>但一个QA的工程师问，“如果他们没调你的回调怎么办？” 噢。谁也没想过。</p>
-<p>你开始布下天罗地网，考虑在他们调用你的回调时所有出错的可能性。这里是你得到的分析工具可能不正常运行的方式的大致列表：</p>
-<ul>
-<li>调用回调过早（在它开始追踪之前）</li>
-<li>调用回调过晚 (或不调)</li>
-<li>调用回调太少或太多次（就像你遇到的问题！）</li>
-<li>没能向你的回调传递必要的环境/参数</li>
-<li>吞掉了可能发生的错误/异常</li>
-<li>…</li>
-</ul>
-<p>这感觉像是一个麻烦清单，因为它就是。你可能慢慢开始理解，你将要不得不为 <strong>每一个传递到你不能信任的工具中的回调</strong> 都创造一大堆的特殊逻辑。</p>
-<p>现在你更全面地理解了“回调地狱”有多地狱。</p>
-<h3 id="不仅是其他人的代码"><a href="#不仅是其他人的代码" class="headerlink" title="不仅是其他人的代码"></a>不仅是其他人的代码</h3><p>现在有些人可能会怀疑事情到底是不是如我所宣扬的这么大条。也许你根本就不和真正的第三方工具互动。也许你用的是进行了版本控制的API，或者自己保管的库，因此它的行为不会在你不知晓的情况下改变。</p>
-<p>那么，好好思考这个问题：你能 <em>真正</em> 信任你理论上控制（在你的代码库中）的工具吗？</p>
-<p>这样考虑：我们大多数人都同意，至少在某个区间内我们应当带着一些防御性的输入参数检查制造我们自己的内部函数，来减少/防止以外的问题。</p>
-<p>过于相信输入：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addNumbers</span>(<span class="params">x,y</span>) </span>&#123;</div><div class="line">	<span class="comment">// + 操作符使用强制转换重载为字符串连接</span></div><div class="line">	<span class="comment">// 所以根据传入参数的不同，这个操作不是严格的安全。</span></div><div class="line">	<span class="keyword">return</span> x + y;</div><div class="line">&#125;</div><div class="line"></div><div class="line">addNumbers( <span class="number">21</span>, <span class="number">21</span> );	<span class="comment">// 42</span></div><div class="line">addNumbers( <span class="number">21</span>, <span class="string">"21"</span> );	<span class="comment">// "2121"</span></div></pre></td></tr></table></figure></p>
-<p>防御不信任的输入：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addNumbers</span>(<span class="params">x,y</span>) </span>&#123;</div><div class="line">	<span class="comment">// 保证数字输入</span></div><div class="line">	<span class="keyword">if</span> (<span class="keyword">typeof</span> x != <span class="string">"number"</span> || <span class="keyword">typeof</span> y != <span class="string">"number"</span>) &#123;</div><div class="line">		<span class="keyword">throw</span> <span class="built_in">Error</span>( <span class="string">"Bad parameters"</span> );</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 如果我们到达这里，+ 就可以安全地做数字加法</span></div><div class="line">	<span class="keyword">return</span> x + y;</div><div class="line">&#125;</div><div class="line"></div><div class="line">addNumbers( <span class="number">21</span>, <span class="number">21</span> );	<span class="comment">// 42</span></div><div class="line">addNumbers( <span class="number">21</span>, <span class="string">"21"</span> );	<span class="comment">// Error: "Bad parameters"</span></div></pre></td></tr></table></figure></p>
-<p>或者也许依然安全但更友好：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addNumbers</span>(<span class="params">x,y</span>) </span>&#123;</div><div class="line">	<span class="comment">// 保证数字输入</span></div><div class="line">	x = <span class="built_in">Number</span>( x );</div><div class="line">	y = <span class="built_in">Number</span>( y );</div><div class="line"></div><div class="line">	<span class="comment">// + 将会安全地执行数字加法</span></div><div class="line">	<span class="keyword">return</span> x + y;</div><div class="line">&#125;</div><div class="line"></div><div class="line">addNumbers( <span class="number">21</span>, <span class="number">21</span> );	<span class="comment">// 42</span></div><div class="line">addNumbers( <span class="number">21</span>, <span class="string">"21"</span> );	<span class="comment">// 42</span></div></pre></td></tr></table></figure></p>
-<p>不管你怎么做，这类函数参数的检查/规范化是相当常见的，即便是我们理论上完全信任的代码。用一个粗俗的说法，编程好像是地缘政治学的“信任但验证”原则的等价物。</p>
-<p>那么，这不是要推论出我们应当对异步函数回调的编写做相同的事，而且不仅是针对真正的外部代码，甚至要对一般认为是“在我们控制之下”的代码？<strong>我们当然应该。</strong></p>
-<p>但是回调没有给我们提供任何协助。我们不得不自己构建所有的装置，而且这通常最终成为许多我们要在每个异步回调中重复的模板/负担。</p>
-<p>有关于回调的最麻烦的问题就是 <em>控制反转</em> 导致所有这些信任完全崩溃。</p>
-<p>如果你有代码用到回调，特别是但不特指第三方工具，而且你还没有为所有这些 <em>控制反转</em> 的信任问题实施某些缓和逻辑，那么你的代码现在就 <em>有</em> bug，虽然它们还没咬到你。将来的bug依然是bug。</p>
-<p>确实是地狱。</p>
-<h2 id="尝试拯救回调"><a href="#尝试拯救回调" class="headerlink" title="尝试拯救回调"></a>尝试拯救回调</h2><p>有几种回调的设计试图解决一些（不是全部！）我们刚才看到的信任问题。这是一种将回调模式从它自己的崩溃中拯救出来的勇敢，但注定失败的努力。</p>
-<p>举个例子，为了更平静地处理错误，有些API设计提供了分离的回调（一个用作成功的通知，一个用作错误的通知）：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">success</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log( data );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">failure</span>(<span class="params">err</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.error( err );</div><div class="line">&#125;</div><div class="line"></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, success, failure );</div></pre></td></tr></table></figure>
-<p>在这种设计的API中，<code>failure()</code>错误处理器通常是可选的，而且如果不提供的话它会假定你想让错误被吞掉。呃。</p>
-<p><strong>注意：</strong> ES6的Promises的API使用的就是这种分离回调设计。我们将在下一章中详尽地讨论ES6的Promises。</p>
-<p>另一种常见的回调设计模式称为“错误优先风格”（有时称为“Node风格”，因为它几乎在所有的Node.js的API中作为惯例使用），一个回调的第一个参数为一个错误对象保留（如果有的话）。如果成功，这个参数将会是空/falsy（而其他后续的参数将是成功的数据），但如果出现了错误的结果，这第一个参数就会被设置/truthy（而且通常没有其他东西会被传递了）：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">err,data</span>) </span>&#123;</div><div class="line">	<span class="comment">// 有错？</span></div><div class="line">	<span class="keyword">if</span> (err) &#123;</div><div class="line">		<span class="built_in">console</span>.error( err );</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 否则，认为成功</span></div><div class="line">	<span class="keyword">else</span> &#123;</div><div class="line">		<span class="built_in">console</span>.log( data );</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, response );</div></pre></td></tr></table></figure>
-<p>这两种方法都有几件事情应当注意。</p>
-<p>首先，它们没有像看起来那样真正解决主要的信任问题。在这两个回调中没有关于防止或过滤意外的重复调用的东西。而且，事情现在更糟糕了，因为你可能同时得到成功和失败信号，或者都得不到，你仍然不得不围绕着这两种情况写代码。</p>
-<p>还有，不要忘了这样的事实：虽然它们是你可以引用的标准模式，但它们绝对更加繁冗，而且是不太可能复用的模板代码，所以你将会对在你应用程序的每一个回调中敲出它们感到厌倦。</p>
-<p>回调从不被调用的信任问题怎么解决？如果这要紧（而且它可能应当要紧！），你可能需要设置一个超时来取消事件。你可以制作一个工具来帮你：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">timeoutify</span>(<span class="params">fn,delay</span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> intv = setTimeout( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			intv = <span class="literal">null</span>;</div><div class="line">			fn( <span class="keyword">new</span> <span class="built_in">Error</span>( <span class="string">"Timeout!"</span> ) );</div><div class="line">		&#125;, delay )</div><div class="line">	;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="comment">// 超时还没有发生？</span></div><div class="line">		<span class="keyword">if</span> (intv) &#123;</div><div class="line">			clearTimeout( intv );</div><div class="line">			fn.apply( <span class="keyword">this</span>, [ <span class="literal">null</span> ].concat( [].slice.call( <span class="built_in">arguments</span> ) ) );</div><div class="line">		&#125;</div><div class="line">	&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这是你如何使用它：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用“错误优先”风格的回调设计</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">err,data</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (err) &#123;</div><div class="line">		<span class="built_in">console</span>.error( err );</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> &#123;</div><div class="line">		<span class="built_in">console</span>.log( data );</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, timeoutify( foo, <span class="number">500</span> ) );</div></pre></td></tr></table></figure>
-<p>另一个信任问题是被调用的“过早”。在应用程序规范上讲，这可能涉及在某些重要的任务完成之前被调用。但更一般地，在那些即可以 <em>现在</em>（同步地），也可以在 <em>稍后</em>（异步地）调用你提供的回调的工具中这个问题更明显。</p>
-<p>这种围绕着同步或异步行为的不确定性，几乎总是导致非常难追踪的Bug。在某些圈子中，一个名叫Zalgo的可以导致人精神错乱的虚构怪物被用来描述这种同步/异步的噩梦。经常能听到人们喊“别放出Zalgo！”，而且它引出了一个非常响亮的建议：总是异步地调用回调，即便它是“立即”在事件轮询的下一个迭代中，这样所有的回调都是可预见的异步。</p>
-<p><strong>注意：</strong> 更多关于Zalgo的信息，参见Oren Golan的“Don’t Release Zalgo!（不要释放Zalgo！）”(<a href="https://github.com/oren/oren.github.io/blob/master/posts/zalgo.md)和Isaac" target="_blank" rel="external">https://github.com/oren/oren.github.io/blob/master/posts/zalgo.md)和Isaac</a> Z. Schlueter的“Designing APIs for Asynchrony（异步API设计）”(<a href="http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony)。" target="_blank" rel="external">http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony)。</a></p>
-<p>考虑下面的代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">result</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log( a );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="number">0</span>;</div><div class="line"></div><div class="line">ajax( <span class="string">"..pre-cached-url.."</span>, result );</div><div class="line">a++;</div></pre></td></tr></table></figure>
-<p>这段代码是打印<code>0</code>（同步回调调用）还是打印<code>1</code>（异步回调调用）？这……要看情况。</p>
-<p>你可以看到Zalgo的不可预见性能有多快地威胁你的JS程序。所以听起来傻呼呼的“别放出Zalgo”实际上是一个不可思议地常见且实在的建议——总是保持异步。</p>
-<p>如果你不知道当前的API是否会总是异步地执行呢？你可以制造一个像<code>asyncify(..)</code>这样的工具：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncify</span>(<span class="params">fn</span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> orig_fn = fn,</div><div class="line">		intv = setTimeout( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			intv = <span class="literal">null</span>;</div><div class="line">			<span class="keyword">if</span> (fn) fn();</div><div class="line">		&#125;, <span class="number">0</span> )</div><div class="line">	;</div><div class="line"></div><div class="line">	fn = <span class="literal">null</span>;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="comment">// 触发太快，在`intv`计时器触发来</span></div><div class="line">		<span class="comment">// 表示异步回合已经过去之前？</span></div><div class="line">		<span class="keyword">if</span> (intv) &#123;</div><div class="line">			fn = orig_fn.bind.apply(</div><div class="line">				orig_fn,</div><div class="line">				<span class="comment">// 将包装函数的`this`加入`bind(..)`调用的</span></div><div class="line">				<span class="comment">// 参数，同时currying其他所有的传入参数</span></div><div class="line">				[<span class="keyword">this</span>].concat( [].slice.call( <span class="built_in">arguments</span> ) )</div><div class="line">			);</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 已经是异步</span></div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="comment">// 调用原版的函数</span></div><div class="line">			orig_fn.apply( <span class="keyword">this</span>, <span class="built_in">arguments</span> );</div><div class="line">		&#125;</div><div class="line">	&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>你像这样使用<code>asyncify(..)</code>:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">result</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log( a );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="number">0</span>;</div><div class="line"></div><div class="line">ajax( <span class="string">"..pre-cached-url.."</span>, asyncify( result ) );</div><div class="line">a++;</div></pre></td></tr></table></figure>
-<p>不管Ajax请求是由于存在于缓存中而解析为立即调用回调，还是它必须走过网线去取得数据而异步地稍后完成，这段代码总是输出<code>1</code>而不是<code>0</code>——<code>result(..)</code>总是被异步地调用，这意味着<code>a++</code>有机会在<code>result(..)</code>之前运行。</p>
-<p>噢耶，又一个信任问题被“解决了”！但它很低效，而且又有更多臃肿的模板代码让你的项目变得沉重。</p>
-<p>这只是关于回调一遍又一遍地发生的故事。它们几乎可以做任何你想做的事，但你不得不努力工作来达到目的，而且大多数时候这种努力比你应当在推理这样的代码上所付出的多得多。</p>
-<p>你可能发现自己希望有一些内建的API或语言机制来解决这些问题。终于ES6带着一个伟大的答案到来了，所以继续读下去！</p>
-<h2 id="复习"><a href="#复习" class="headerlink" title="复习"></a>复习</h2><p>回调是JS中异步的基础单位。但是随着JS的成熟，它们对于异步编程的演化趋势来讲显得不够。</p>
-<p>首先，我们的大脑用顺序的，阻塞的，单线程的语义方式规划事情，但是回调使用非线性，非顺序的方式表达异步流程，这使我们正确推理这样的代码变得非常困难。不好推理的代码是导致不好的Bug的不好的代码。</p>
-<p>我们需要一个种方法，以更同步化，顺序化，阻塞的方式来表达异步，正如我们的大脑那样。</p>
-<p>第二，而且是更重要的，回调遭受着 <em>控制反转</em> 的蹂躏，它们隐含地将控制权交给第三方（通常第三方工具不受你控制！）来调用你程序的 <em>延续</em>。这种控制权的转移使我们得到一张信任问题的令人不安的列表，比如回调是否会比我们期望的被调用更多次。</p>
-<p>制造特殊的逻辑来解决这些信任问题是可能的，但是它比它应有的难度高多了，还会产生更笨重和更难维护的代码，而且在bug实际咬到你的时候代码会显得在这些危险上被保护的不够。</p>
-<p>我们需要一个 <strong>所有这些信任问题</strong> 的一般化解决方案。一个可以被所有我们制造的回调复用，而且没有多余的模板代码负担的方案。</p>
-<p>我们需要比回调更好的东西。目前为止它们做的不错，但JavaScript的 <em>未来</em> 要求更精巧和强大的异步模式。本书的后续章节将会深入这些新兴的发展变化。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://feinikes.github.io/2017/06/15/异步-现在与稍后/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Phoenix">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Phoenix's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/06/15/回调/" rel="next" title="回调">
+                <i class="fa fa-chevron-left"></i> 回调
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2017/06/15/异步-现在与稍后/" itemprop="url">
-                  异步: 现在与稍后
-                </a>
-              
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T10:06:00+08:00">
-                2017-06-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/异步与性能/" itemprop="url" rel="index">
-                    <span itemprop="name">异步与性能</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h1 id="异步-现在与稍后"><a href="#异步-现在与稍后" class="headerlink" title="异步: 现在与稍后"></a>异步: 现在与稍后</h1><p>在像JavaScript这样的语言中最重要但经常被误解的编程技术之一，就是如何表达和操作跨越一段时间的程序行为。</p>
-<p>这不仅仅是关于从<code>for</code>循环开始到<code>for</code>循环结束之间发生的事情，当然它确实要花 <em>一些时间</em>（几微秒到几毫秒）才能完成。它是关于你的程序 <em>现在</em> 运行的部分，和你的程序 <em>稍后</em> 运行的另一部分之间发生的事情——<em>现在</em> 和 <em>稍后</em> 之间有一个间隙，在这个间隙中你的程序没有活跃地执行。</p>
-<p>几乎所有被编写过的（特别是用JS）大型程序都不得不用这样或那样的方法来管理这个间隙，不管是等待用户输入，从数据库或文件系统请求数据，通过网络发送数据并等待应答，还是在规定的时间间隔重复某些任务（比如动画）。在所有这些各种方法中，你的程序都不得不跨越时间间隙管理状态。就像在伦敦众所周知的一句话（地铁门与月台间的缝隙）：“小心间隙。”</p>
-<p>实际上，你程序中 <em>现在</em> 与 <em>稍后</em> 的部分之间的关系，就是异步编程的核心。</p>
-<p>可以确定的是，异步编程在JS的最开始就出现了。但是大多数开发者从没认真地考虑过它到底是如何，为什么出现在他们的程序中的，也没有探索过 <em>其他</em> 处理异步的方式。<em>足够好</em> 的方法总是老实巴交的回调函数。今天还有许多人坚持认为回调就绰绰有余了。</p>
-<p>但是JS在使用范围和复杂性上不停地生长，作为运行在浏览器，服务器和每种可能的设备上的头等编程语言，为了适应它不断扩大的要求，我们在管理异步上感受到的痛苦日趋严重，人们迫切地需要一种更强大更合理的处理方法。</p>
-<p>虽然眼前这一切看起来很抽象，但我保证，随着我们通读这本书你会更完整且坚实地解决它。在接下来的几章中我们将会探索各种异步JavaScript编程的新兴技术。</p>
-<p>但在接触它们之前，我们将不得不更深刻地理解异步是什么，以及它在JS中如何运行。</p>
-<h2 id="块儿（Chunks）中的程序"><a href="#块儿（Chunks）中的程序" class="headerlink" title="块儿（Chunks）中的程序"></a>块儿（Chunks）中的程序</h2><p>你可能将你的JS程序写在一个 <em>.js</em> 文件中，但几乎可以确定你的程序是由几个代码块儿构成的，仅有其中的一个将会在 <em>现在</em> 执行，而其他的将会在 <em>稍后</em> 执行。最常见的 <em>代码块儿</em> 单位是<code>function</code>。</p>
-<p>大多数刚接触JS的开发者都可能会有的问题是，<em>稍后</em> 并不严格且立即地在 <em>现在</em> 之后发生。换句话说，根据定义，<em>现在</em> 不能完成的任务将会异步地完成，而且我们因此不会有你可能在直觉上期望或想要的阻塞行为。</p>
-<p>考虑这段代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ajax(..)是某个包中任意的Ajax函数</span></div><div class="line"><span class="keyword">var</span> data = ajax( <span class="string">"http://some.url.1"</span> );</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log( data );</div><div class="line"><span class="comment">// 噢！`data`一般不会有Ajax的结果</span></div></pre></td></tr></table></figure>
-<p>你可能意识到Ajax请求不会同步地完成，这意味着<code>ajax(..)</code>函数还没有任何返回的值可以赋值给变量<code>data</code>。如果<code>ajax(..)</code>在应答返回之前 <em>能够</em> 阻塞，那么<code>data = ..</code>赋值将会正常工作。</p>
-<p>但那不是我们使用Ajax的方式。我们 <em>现在</em> 制造一个异步的Ajax请求，直到 <em>稍后</em> 我们才会得到结果。</p>
-<p>从 <em>现在</em> “等到” <em>稍后</em> 最简单的（但绝对不是唯一的，或最好的）方法，通常称为回调函数：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, <span class="function"><span class="keyword">function</span> <span class="title">myCallbackFunction</span>(<span class="params">data</span>)</span>&#123;</div><div class="line"></div><div class="line">	<span class="built_in">console</span>.log( data ); <span class="comment">// Yay, 我得到了一些`data`!</span></div><div class="line"></div><div class="line">&#125; );</div></pre></td></tr></table></figure>
-<p><strong>警告：</strong> 你可能听说过发起同步的Ajax请求是可能的。虽然在技术上是这样的，但你永远，永远不应该在任何情况下这样做，因为它将锁定浏览器的UI（按钮，菜单，滚动条，等等）而且阻止用户与任何东西互动。这是一个非常差劲的主意，你应当永远回避它。</p>
-<p>在你提出抗议之前，不，你渴望避免混乱的回调不是使用阻塞的，同步的Ajax的正当理由。</p>
-<p>举个例子，考虑下面的代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">now</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="number">21</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">later</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	answer = answer * <span class="number">2</span>;</div><div class="line">	<span class="built_in">console</span>.log( <span class="string">"Meaning of life:"</span>, answer );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> answer = now();</div><div class="line"></div><div class="line">setTimeout( later, <span class="number">1000</span> ); <span class="comment">// Meaning of life: 42</span></div></pre></td></tr></table></figure>
-<p>这个程序中有两个代码块儿：<em>现在</em> 将会运行的东西，和 <em>稍后</em> 将会运行的东西。这两个代码块分别是什么应当十分明显，但还是让我们以最明确的方式指出来：</p>
-<p>现在：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">now</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="number">21</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">later</span>(<span class="params"></span>) </span>&#123;  &#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> answer = now();</div><div class="line"></div><div class="line">setTimeout( later, <span class="number">1000</span> );</div></pre></td></tr></table></figure></p>
-<p>稍后：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">answer = answer * <span class="number">2</span>;</div><div class="line"><span class="built_in">console</span>.log( <span class="string">"Meaning of life:"</span>, answer );</div></pre></td></tr></table></figure></p>
-<p>你的程序一执行，<em>现在</em> 代码块儿就会立即运行。但<code>setTimeout(..)</code>还设置了一个 <em>稍后</em> 会发生的事件（一个超时事件），所以<code>later()</code>函数的内容将会在一段时间后（从现在开始1000毫秒）被执行。</p>
-<p>每当你将一部分代码包进<code>function</code>并且规定它应当为了响应某些事件而执行（定时器，鼠标点击，Ajax应答等等），你就创建了一个 <em>稍后</em> 代码块儿，也因此在你的程序中引入了异步。</p>
-<h3 id="异步控制台"><a href="#异步控制台" class="headerlink" title="异步控制台"></a>异步控制台</h3><p>关于<code>console.*</code>方法如何工作，没有相应的语言规范或一组需求——它们不是JavaScript官方的一部分，而是由 <em>宿主环境</em> 添加到JS上的（见本丛书的 <em>类型与文法</em>）。</p>
-<p>所以，不同的浏览器和JS环境各自为战，这有时会导致令人困惑的行为。</p>
-<p>特别地，有些浏览器和某些条件下，<code>console.log(..)</code>实际上不会立即输出它得到的东西。这个现象的主要原因可能是因为I/O处理很慢，而且是许多程序的阻塞部分（不仅是JS）。所以，对一个浏览器来说，可能的性能更好的处理方式是（从网页/UI的角度看），在后台异步地处理<code>console</code>I/O，而你也许根本不知道它发生了。</p>
-<p>虽然不是很常见，但是一种可能被观察到（不是从代码本身，而是从外部）的场景是：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">	<span class="attr">index</span>: <span class="number">1</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 稍后</span></div><div class="line"><span class="built_in">console</span>.log( a ); <span class="comment">// ??</span></div><div class="line"></div><div class="line"><span class="comment">// 再稍后</span></div><div class="line">a.index++;</div></pre></td></tr></table></figure>
-<p>我们一般希望看到的是，就在<code>console.log(..)</code>语句被执行的那一刻，对象<code>a</code>被取得一个快照，打印出如<code>{ index: 1 }</code>的内容，如此在下一个语句<code>a.index++</code>执行时，它修改不同于<code>a</code>的输出，或者严格的在<code>a</code>的输出之后的某些东西。</p>
-<p>大多数时候，上面的代码将会在你的开发者工具控制台中产生一个你期望的对象表现形式。但是同样的代码也可能运行在这样的情况下：浏览器告诉后台它需要推迟控制台I/O，这时，在对象在控制台中被表示的那个时间点，<code>a.index++</code>已经执行了，所以它将显示<code>{ index: 2 }</code>。</p>
-<p>到底在什么条件下<code>console</code>I/O将被推迟是不确定的，甚至它能不能被观察到都是不确定的。只能当你在调试过程中遇到问题时——对象在<code>console.log(..)</code>语句之后被修改，但你却意外地看到了修改后的内容——意识到I/O的这种可能的异步性。</p>
-<p><strong>注意：</strong> 如果你遇到了这种罕见的情况，最好的选择是使用JS调试器的断点，而不是依赖<code>console</code>的输出。第二好的选择是通过将目标对象序列化为一个<code>string</code>强制取得一个它的快照，比如用<code>JSON.stringify(..)</code>。</p>
-<h2 id="事件轮询（Event-Loop）"><a href="#事件轮询（Event-Loop）" class="headerlink" title="事件轮询（Event Loop）"></a>事件轮询（Event Loop）</h2><p>让我们来做一个（也许是令人震惊的）声明：尽管明确地允许异步JS代码（就像我们刚看到的超时），但是实际上，直到最近（ES6）为止，JavaScript本身从来没有任何内建的异步概念。</p>
-<p><strong>什么！？</strong> 这听起来简直是疯了，对吧？事实上，它是真的。JS引擎本身除了在某个在被要求的时刻执行你程序的一个单独的代码块外，没有做过任何其他的事情。</p>
-<p>“被’谁’要求”？这才是重要的部分！</p>
-<p>JS引擎没有运行在隔离的区域。它运行在一个 <em>宿主环境</em> 中，对大多数开发者来说这个宿主环境就是浏览器。在过去的几年中（但不特指这几年），JS超越了浏览器的界限进入到了其他环境中，比如服务器，通过Node.js这样的东西。其实，今天JavaScript已经被嵌入到所有种类的设备中，从机器人到电灯泡儿。</p>
-<p>所有这些环境的一个共通的“线程”（一个“不那么微妙”的异步玩笑，不管怎样）是，他们都有一种机制：在每次调用JS引擎时，可以 <em>随着时间的推移</em> 执行你的程序的多个代码块儿，这称为“事件轮询（Event Loop）”。</p>
-<p>换句话说，JS引擎对 <em>时间</em> 没有天生的感觉，反而是一个任意JS代码段的按需执行环境。是它周围的环境在不停地安排“事件”（JS代码的执行）。</p>
-<p>那么，举例来说，当你的JS程序发起一个从服务器取得数据的Ajax请求时，你在一个函数（通常称为回调）中建立好“应答”代码，然后JS引擎就会告诉宿主环境，“嘿，我就要暂时停止执行了，但不管你什么时候完成了这个网络请求，而且你还得到一些数据的话，请 <em>回来调</em> 这个函数。”</p>
-<p>然后浏览器就会为网络的应答设置一个监听器，当它有东西要交给你的时候，它会通过将回调函数插入 <em>事件轮询</em> 来安排它的执行。</p>
-<p>那么什么是 <em>事件轮询</em>？</p>
-<p>让我们先通过一些假想代码来对它形成一个概念：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// `eventLoop`是一个像队列一样的数组（先进先出）</span></div><div class="line"><span class="keyword">var</span> eventLoop = [ ];</div><div class="line"><span class="keyword">var</span> event;</div><div class="line"></div><div class="line"><span class="comment">// “永远”执行</span></div><div class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">	<span class="comment">// 执行一个"tick"</span></div><div class="line">	<span class="keyword">if</span> (eventLoop.length &gt; <span class="number">0</span>) &#123;</div><div class="line">		<span class="comment">// 在队列中取得下一个事件</span></div><div class="line">		event = eventLoop.shift();</div><div class="line"></div><div class="line">		<span class="comment">// 现在执行下一个事件</span></div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			event();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">catch</span> (err) &#123;</div><div class="line">			reportError(err);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当然，这只是一个用来展示概念的大幅简化的假想代码。但是对于帮助我们建立更好的理解来说应该够了。</p>
-<p>如你所见，有一个通过<code>while</code>循环来表现的持续不断的循环，这个循环的每一次迭代称为一个“tick”。在每一个“tick”中，如果队列中有一个事件在等待，它就会被取出执行。这些事件就是你的函数回调。</p>
-<p>很重要并需要注意的是，<code>setTimeout(..)</code>不会将你的回调放在事件轮询队列上。它设置一个定时器；当这个定时器超时的时候，环境才会把你的回调放进事件轮询，这样在某个未来的tick中它将会被取出执行。</p>
-<p>如果在那时事件轮询队列中已经有了20个事件会怎么样？你的回调要等待。它会排到队列最后——没有一般的方法可以插队和跳到队列的最前方。这就解释了为什么<code>setTimeout(..)</code>计时器可能不会完美地按照预计时间触发。你得到一个保证（粗略地说）：你的回调不会再你指定的时间间隔之前被触发，但是可能会在这个时间间隔之后被触发，具体要看事件队列的状态。</p>
-<p>换句话说，你的程序通常被打断成许多小的代码块儿，它们一个接一个地在事件轮询队列中执行。而且从技术上说，其他与你的程序没有直接关系的事件也可以穿插在队列中。</p>
-<p><strong>注意：</strong> 我们提到了“直到最近”，暗示着ES6改变了事件轮询队列在何处被管理的性质。这主要是一个正式的技术规范，ES6现在明确地指出了事件轮询应当如何工作，这意味着它技术上属于JS引擎应当关心的范畴内，而不仅仅是 <em>宿主环境</em>。这么做的一个主要原因是为了引入ES6的Promises（我们将在第三章讨论），因为人们需要有能力对事件轮询队列的排队操作进行直接，细粒度的控制（参见“协作”一节中关于<code>setTimeout(..0)</code>的讨论）。</p>
-<h2 id="并行线程"><a href="#并行线程" class="headerlink" title="并行线程"></a>并行线程</h2><p>将“异步”与“并行”两个词经常被混为一谈，但它们实际上是十分不同的。记住，异步是关于 <em>现在</em> 与 <em>稍后</em> 之间的间隙。但并行是关于可以同时发生的事情。</p>
-<p>关于并行计算最常见的工具就是进程与线程。进程和线程独立地，可能同时地执行：在不同的处理器上，甚至在不同的计算机上，而多个线程可以共享一个进程的内存资源。</p>
-<p>相比之下，一个事件轮询将它的工作打碎成一系列任务并串行地执行它们，不允许并行访问和更改共享的内存。并行与“串行”可能以在不同线程上的事件轮询协作的形式共存。</p>
-<p>并行线程执行的穿插，与异步事件的穿插发生在完全不同的粒度等级上：</p>
-<p>比如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">later</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	answer = answer * <span class="number">2</span>;</div><div class="line">	<span class="built_in">console</span>.log( <span class="string">"Meaning of life:"</span>, answer );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>虽然<code>later()</code>的整个内容将被当做一个事件轮询队列的实体，但当考虑到将要执行这段代码的线程时，实际上也许会有许多不同的底层操作。比如，<code>answer = answer * 2</code>首先需要读取当前<code>answer</code>的值，再把<code>2</code>放在某个地方，然后进行乘法计算，最后把结果存回到<code>answer</code>。</p>
-<p>在一个单线程环境中，线程队列中的内容都是底层操作真的无关紧要，因为没有什么可以打断线程。但如果你有一个并行系统，在同一个程序中有两个不同的线程，你很可能会得到无法预测的行为：</p>
-<p>考虑这段代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">20</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	a = a + <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	a = a * <span class="number">2</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是一个给定的库中的随意Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, foo );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, bar );</div></pre></td></tr></table></figure>
-<p>在JavaScript的单线程行为下，如果<code>foo()</code>在<code>bar()</code>之前执行，结果<code>a</code>是<code>42</code>，但如果<code>bar()</code>在<code>foo()</code>之前执行，结果<code>a</code>将是<code>41</code>。</p>
-<p>如果JS事件共享相同的并列执行数据，问题将会变得微妙得多。考虑这两个假想代码段，它们分别描述了运行<code>foo()</code>和<code>bar()</code>中代码的线程将要执行的任务，并考虑如果它们在完全相同的时刻运行会发生什么：</p>
-<p>线程1（<code>X</code>和<code>Y</code>是临时的内存位置）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">foo():</div><div class="line">	a. 将`a`的值读取到`X`</div><div class="line">	b. 将`1`存入`Y`</div><div class="line">	c. 把`X`和`Y`相加，将结果存入`X`</div><div class="line">  d. 将`X`的值存入`a`</div></pre></td></tr></table></figure></p>
-<p>线程2（<code>X</code>和<code>Y</code>是临时的内存位置）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">bar():</div><div class="line">  a. 将`a`的值读取到`X`</div><div class="line">	b. 将`2`存入`Y`</div><div class="line">	c. 把`X`和`Y`相乘，将结果存入`X`</div><div class="line">	d. 将`X`的值存入`a`</div></pre></td></tr></table></figure></p>
-<p>现在，让我们假定这两个线程在并行执行。你可能发现了问题，对吧？它们在临时的步骤中使用共享的内存位置<code>X</code>和<code>Y</code>。</p>
-<p>如果步骤像这样发生，<code>a</code>的最终结果什么？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">1a  (将`a`的值读取到`X`   ==&gt; `20`)</div><div class="line">2a  (将`a`的值读取到`X`   ==&gt; `20`)</div><div class="line">1b  (将`1`存入`Y`   ==&gt; `1`)</div><div class="line">2b  (将`2`存入`Y`   ==&gt; `2`)</div><div class="line">1c  (把`X`和`Y`相加，将结果存入`X`   ==&gt; `22`)</div><div class="line">1d  (将`X`的值存入`a`   ==&gt; `22`)</div><div class="line">2c  (把`X`和`Y`相乘，将结果存入`X`   ==&gt; `44`)</div><div class="line">2d  (将`X`的值存入`a`   ==&gt; `44`)</div></pre></td></tr></table></figure>
-<p><code>a</code>中的结果将是<code>44</code>。那么这种顺序呢？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">1a  (将`a`的值读取到`X`   ==&gt; `20`)</div><div class="line">2a  (将`a`的值读取到`X`   ==&gt; `20`)</div><div class="line">2b  (将`2`存入`Y`   ==&gt; `2`)</div><div class="line">1b  (将`1`存入`Y`   ==&gt; `1`)</div><div class="line">2c  (把`X`和`Y`相乘，将结果存入`X`   ==&gt; `20`)</div><div class="line">1c  (把`X`和`Y`相加，将结果存入`X`   ==&gt; `21`)</div><div class="line">1d  (将`X`的值存入`a`   ==&gt; `21`)</div><div class="line">2d  (将`X`的值存入`a`   ==&gt; `21`)</div></pre></td></tr></table></figure>
-<p><code>a</code>中的结果将是<code>21</code>。</p>
-<p>所以，关于线程的编程十分刁钻，因为如果你不采取特殊的步骤来防止这样的干扰/穿插，你会得到令人非常诧异的，不确定的行为。这通常让人头疼。</p>
-<p>JavaScript从不跨线程共享数据，这意味着不必关心这一层的不确定性。但这并不意味着JS总是确定性的。记得前面<code>foo()</code>和<code>bar()</code>的相对顺序产生两个不同的结果吗（<code>41</code>或<code>42</code>）？</p>
-<p><strong>注意：</strong> 可能还不明显，但不是所有的不确定性都是坏的。有时候它无关紧要，有时候它是故意的。我们会在本章和后续几章中看到更多的例子。</p>
-<h3 id="运行至完成"><a href="#运行至完成" class="headerlink" title="运行至完成"></a>运行至完成</h3><p>因为JavaScript是单线程的，<code>foo()</code>（和<code>bar()</code>）中的代码是原子性的，这意味着一旦<code>foo()</code>开始运行，它的全部代码都会在<code>bar()</code>中的任何代码可以运行之前执行完成，反之亦然。这称为“运行至完成”行为。</p>
-<p>事实上，运行至完成的语义会在<code>foo()</code>与<code>bar()</code>中有更多的代码时更明显，比如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	a++;</div><div class="line">	b = b * a;</div><div class="line">	a = b + <span class="number">3</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	b--;</div><div class="line">	a = <span class="number">8</span> + b;</div><div class="line">	b = a * <span class="number">2</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, foo );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, bar );</div></pre></td></tr></table></figure>
-<p>因为<code>foo()</code>不能被<code>bar()</code>打断，而且<code>bar()</code>不能被<code>foo()</code>打断，所以这个程序根据哪一个先执行只有两种可能的结果——如果线程存在，<code>foo()</code>和<code>bar()</code>中的每一个语句都可能被穿插，可能的结果数量将会极大地增长!</p>
-<p>代码块儿1是同步的（<em>现在</em> 发生），但代码块儿2和3是异步的（<em>稍后</em> 发生），这意味着它们的执行将会被时间的间隙分开。</p>
-<p>代码块儿1:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</div></pre></td></tr></table></figure></p>
-<p>代码块儿2 (<code>foo()</code>):<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a++;</div><div class="line">b = b * a;</div><div class="line">a = b + <span class="number">3</span>;</div></pre></td></tr></table></figure></p>
-<p>代码块儿3 (<code>bar()</code>):<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">b--;</div><div class="line">a = <span class="number">8</span> + b;</div><div class="line">b = a * <span class="number">2</span>;</div></pre></td></tr></table></figure></p>
-<p>代码块儿2和3哪一个都有可能先执行，所以这个程序有两个可能的结果，正如这里展示的：</p>
-<p>结果1:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="comment">// foo()</span></div><div class="line">a++;</div><div class="line">b = b * a;</div><div class="line">a = b + <span class="number">3</span>;</div><div class="line"></div><div class="line"><span class="comment">// bar()</span></div><div class="line">b--;</div><div class="line">a = <span class="number">8</span> + b;</div><div class="line">b = a * <span class="number">2</span>;</div><div class="line"></div><div class="line">a; <span class="comment">// 11</span></div><div class="line">b; <span class="comment">// 22</span></div></pre></td></tr></table></figure></p>
-<p>结果2:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="comment">// bar()</span></div><div class="line">b--;</div><div class="line">a = <span class="number">8</span> + b;</div><div class="line">b = a * <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="comment">// foo()</span></div><div class="line">a++;</div><div class="line">b = b * a;</div><div class="line">a = b + <span class="number">3</span>;</div><div class="line"></div><div class="line">a; <span class="comment">// 183</span></div><div class="line">b; <span class="comment">// 180</span></div></pre></td></tr></table></figure></p>
-<p>同一段代码有两种结果仍然意味着不确定性！但是这是在函数（事件）顺序的水平上，而不是在使用线程时语句顺序的水平上（或者说，实际上是表达式操作的顺序上）。换句话说，他比线程更具有 <em>确定性</em>。</p>
-<p>当套用到JavaScript行为时，这种函数顺序的不确定性通常称为“竞合状态”，因为<code>foo()</code>和<code>bar()</code>在互相竞争看谁会先运行。明确地说，它是一个“竞合状态”因为你不能可靠地预测<code>a</code>与<code>b</code>将如何产生。</p>
-<p><strong>注意：</strong> 如果在JS中不知怎的有一个函数没有运行至完成的行为，我们会有更多可能的结果，对吧？ES6中引入一个这样的东西（见第四章“生成器”），但现在不要担心，我们会回头讨论它。</p>
-<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><p>让我们想象一个网站，它显示一个随着用户向下滚动而逐步加载的状态更新列表（就像社交网络的新消息）。要使这样的特性正确工作，（至少）需要两个分离的“进程” <em>同时</em> 执行（在同一个时间跨度内，但没必要是同一个时间点）。</p>
-<p><strong>注意：</strong> 我们在这里使用带引号的“进程”，因为它们不是计算机科学意义上的真正的操作系统级别的进程。它们是虚拟进程，或者说任务，表示一组逻辑上关联，串行顺序的操作。我们将简单地使用“进程”而非“任务”，因为在术语层面它与我们讨论的概念的定义相匹配。</p>
-<p>第一个“进程”将响应当用户向下滚动页面时触发的<code>onscroll</code>事件（发起取得新内容的Ajax请求）。第二个“进程”将接收返回的Ajax应答（将内容绘制在页面上）。</p>
-<p>显然，如果用户向下滚动的足够快，你也许会看到在第一个应答返回并处理期间，有两个或更多的<code>onscroll</code>事件被触发，因此你将使<code>onscroll</code>事件和Ajax应答事件迅速触发，互相穿插在一起。</p>
-<p>并发是当两个或多个“进程”在同一时间段内同时执行，无论构成它们的各个操作是否 <em>并行地</em>（在同一时刻不同的处理器或内核）发生。你可以认为并发是“进程”级别的（或任务级别）的并行机制，而不是操作级别的并行机制（分割进程的线程）。</p>
-<p><strong>注意：</strong> 并发还引入了这些“进程”间彼此互动的概念。我们稍后会讨论它。</p>
-<p>在一个给定的时间跨度内（用户可以滚动的那几秒），让我们将每个独立的“进程”作为一系列事件/操作描绘出来：</p>
-<p>“线程”1 (<code>onscroll</code>事件):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">onscroll, request 1</div><div class="line">onscroll, request 2</div><div class="line">onscroll, request 3</div><div class="line">onscroll, request 4</div><div class="line">onscroll, request 5</div><div class="line">onscroll, request 6</div><div class="line">onscroll, request 7</div></pre></td></tr></table></figure></p>
-<p>“线程”2 (Ajax应答事件):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">response 1</div><div class="line">response 2</div><div class="line">response 3</div><div class="line">response 4</div><div class="line">response 5</div><div class="line">response 6</div><div class="line">response 7</div></pre></td></tr></table></figure></p>
-<p>一个<code>onscroll</code>事件与一个Ajax应答事件很有可能在同一个 <em>时刻</em> 都准备好被处理了。比如我们在一个时间线上描绘一下这些事件的话：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">onscroll, request 1</div><div class="line">onscroll, request 2          response 1</div><div class="line">onscroll, request 3          response 2</div><div class="line">response 3</div><div class="line">onscroll, request 4</div><div class="line">onscroll, request 5</div><div class="line">onscroll, request 6          response 4</div><div class="line">onscroll, request 7</div><div class="line">response 6</div><div class="line">response 5</div><div class="line">response 7</div></pre></td></tr></table></figure>
-<p>但是，回到本章前面的事件轮询概念，JS一次只能处理一个事件，所以不是<code>onscroll, request 2</code>首先发生就是<code>response 1</code>首先发生，但是他们不可能完全在同一时刻发生。就像学校食堂的孩子们一样，不管他们在门口挤成什么样，他们最后都不得不排成一个队来打饭！</p>
-<p>让我们来描绘一下所有这些事件在事件轮询队列上穿插的情况：</p>
-<p>事件轮询队列：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">onscroll, request 1   &lt;--- 进程1开始</div><div class="line">onscroll, request 2</div><div class="line">response 1            &lt;--- 进程2开始</div><div class="line">onscroll, request 3</div><div class="line">response 2</div><div class="line">response 3</div><div class="line">onscroll, request 4</div><div class="line">onscroll, request 5</div><div class="line">onscroll, request 6</div><div class="line">response 4</div><div class="line">onscroll, request 7   &lt;--- 进程1结束</div><div class="line">response 6</div><div class="line">response 5</div><div class="line">response 7            &lt;--- 进程2结束</div></pre></td></tr></table></figure></p>
-<p>“进程1”和“进程2”并发地运行（任务级别的并行），但是它们的个别事件在事件轮询队列上顺序地运行。</p>
-<p>顺便说一句，注意到<code>response 6</code>和<code>response 5</code>没有按照预想的顺序应答吗？</p>
-<p>单线程事件轮询是并发的一种表达（当然还有其他的表达，我们稍后讨论）。</p>
-<h3 id="非互动"><a href="#非互动" class="headerlink" title="非互动"></a>非互动</h3><p>在同一个程序中两个或更多的“进程”在穿插它们的步骤/事件时，如果它们的任务之间没有联系，那么他们就没必要互动。<strong>如果它们不互动，不确定性就是完全可以接受的。</strong></p>
-<p>举个例子：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">results</span>) </span>&#123;</div><div class="line">	res.foo = results;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">results</span>) </span>&#123;</div><div class="line">	res.bar = results;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, foo );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, bar );</div></pre></td></tr></table></figure>
-<p><code>foo()</code>和<code>bar()</code>是两个并发的“进程”，而且它们被触发的顺序是不确定的。但对我们的程序的结构来讲它们的触发顺序无关紧要，因为它们的行为相互独立所以不需要互动。</p>
-<p>这不是一个“竞合状态”Bug，因为这段代码总能够正确工作，与顺序无关。</p>
-<h3 id="互动"><a href="#互动" class="headerlink" title="互动"></a>互动</h3><p>更常见的是，通过作用域和/或DOM，并发的“进程”将有必要间接地互动。当这样的互动将要发生时，你需要协调这些互动行为来防止前面讲述的“竞合状态”。</p>
-<p>这里是两个由于隐含的顺序而互动的并发“进程”的例子，它 <em>有时会出错</em>：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = [];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">	res.push( data );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, response );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, response );</div></pre></td></tr></table></figure>
-<p>并发的“进程”是那两个将要处理Ajax应答的<code>response()</code>调用。它们谁都有可能先发生。</p>
-<p>假定我们期望的行为是<code>res[0]</code>拥有<code>&quot;http://some.url.1&quot;</code>调用的结果，而<code>res[1]</code>拥有<code>&quot;http://some.url.2&quot;</code>调用的结果。有时候结果确实是这样，而有时候则相反，要看哪一个调用首先完成。很有可能，这种不确定性是一个“竞合状态”Bug。</p>
-<p><strong>注意：</strong> 在这些情况下要极其警惕你可能做出的主观臆测。比如这样的情况就没什么不寻常：一个开发者观察到<code>&quot;http://some.url.2&quot;</code>的应答“总是”比<code>&quot;http://some.url.1&quot;</code>要慢得多，也许有赖于它们所做的任务（比如，一个执行数据库任务而另一个只是取得静态文件），所以观察到的顺序看起来总是所期望的。就算两个请求都发到同一个服务器，而且它故意以确定的顺序应答，也不能 <em>真正</em> 保证应答回到浏览器的顺序。</p>
-<p>所以，为了解决这样的竞合状态，你可以协调互动的顺序：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = [];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (data.url == <span class="string">"http://some.url.1"</span>) &#123;</div><div class="line">		res[<span class="number">0</span>] = data;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (data.url == <span class="string">"http://some.url.2"</span>) &#123;</div><div class="line">		res[<span class="number">1</span>] = data;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, response );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, response );</div></pre></td></tr></table></figure>
-<p>无论哪个Ajax应答首先返回，我们都考察它的<code>data.url</code>（当然，假设这样的数据会从服务器返回）来找到应答数据应当在<code>res</code>数组中占有的位置。<code>res[0]</code>将总是持有<code>&quot;http://some.url.1&quot;</code>的结果，而<code>res[1]</code>将总是持有<code>&quot;http://some.url.2&quot;</code>的结果。通过简单的协调，我们消除了“竞合状态”的不确定性。</p>
-<p>这个场景的同样道理可以适用于这样的情况：多个并发的函数调用通过共享的DOM互动，比如一个在更新<code>&lt;div&gt;</code>的内容而另一个在更新<code>&lt;div&gt;</code>的样式或属性（比如一旦DOM元素拥有内容就使它变得可见）。你可能不想在DOM元素拥有内容之前显示它，所以协调工作就必须保证正确顺序的互动。</p>
-<p>没有协调的互动，有些并发的场景 <em>总是出错</em>（不仅仅是 <em>有时</em>）。考虑下面的代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a, b;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">	a = x * <span class="number">2</span>;</div><div class="line">	baz();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">y</span>) </span>&#123;</div><div class="line">	b = y * <span class="number">2</span>;</div><div class="line">	baz();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(a + b);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, foo );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, bar );</div></pre></td></tr></table></figure>
-<p>在这个例子中，不管<code>foo()</code>和<code>bar()</code>谁先触发，总是会使<code>baz()</code>运行的太早了（<code>a</code>和<code>b</code>之一还是空的时候），但是第二个<code>baz()</code>调用将可以工作，因为<code>a</code>和<code>b</code>将都是可用的。</p>
-<p>有许多不同的方法可以解决这个状态。这是简单的一种：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a, b;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">	a = x * <span class="number">2</span>;</div><div class="line">	<span class="keyword">if</span> (a &amp;&amp; b) &#123;</div><div class="line">		baz();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">y</span>) </span>&#123;</div><div class="line">	b = y * <span class="number">2</span>;</div><div class="line">	<span class="keyword">if</span> (a &amp;&amp; b) &#123;</div><div class="line">		baz();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log( a + b );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, foo );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, bar );</div></pre></td></tr></table></figure>
-<p><code>baz()</code>调用周围的<code>if (a &amp;&amp; b)</code>条件通常称为“大门”，因为我们不能确定<code>a</code>和<code>b</code>到来的顺序，但在打开大门（调用<code>baz()</code>）之前我们等待它们全部到达。</p>
-<p>另一种你可能会遇到的并发互动状态有时称为“竞争”，单更准确地说应该叫“门闩”。它的行为特点是“先到者胜”。在这里不确定性是可以接受的，因为你明确指出“竞争”的终点线上只有一个胜利者。</p>
-<p>考虑这段有问题的代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">	a = x * <span class="number">2</span>;</div><div class="line">	baz();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">	a = x / <span class="number">2</span>;</div><div class="line">	baz();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log( a );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, foo );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, bar );</div></pre></td></tr></table></figure>
-<p>不管哪一个函数最后触发（<code>foo()</code>或<code>bar()</code>），它不仅会覆盖前一个函数对<code>a</code>的赋值，还会重复调用<code>baz()</code>（不太可能是期望的）。</p>
-<p>所以，我们可以用一个简单的门闩来协调互动，仅让第一个过去：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (a == <span class="literal">undefined</span>) &#123;</div><div class="line">		a = x * <span class="number">2</span>;</div><div class="line">		baz();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (a == <span class="literal">undefined</span>) &#123;</div><div class="line">		a = x / <span class="number">2</span>;</div><div class="line">		baz();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log( a );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, foo );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, bar );</div></pre></td></tr></table></figure>
-<p><code>if (a == undefined)</code>条件仅会让<code>foo()</code>或<code>bar()</code>中的第一个通过，而第二个（以及后续所有的）调用将会被忽略。第二名什么也得不到！</p>
-<p><strong>注意：</strong> 在所有这些场景中，为了简化说明的目的我们都用了全局变量，这里我们没有任何理由需要这么做。只要我们讨论中的函数可以访问变量（通过作用域），它们就可以正常工作。依赖于词法作用域变量（参见本丛书的 <em>作用域与闭包</em> ），和这些例子中实质上的全局变量，是这种并发协调形式的一个明显的缺点。在以后的几章中，我们会看到其他的在这方面干净得多的协调方法。</p>
-<h3 id="协作"><a href="#协作" class="headerlink" title="协作"></a>协作</h3><p>另一种并发协调的表达称为“协作并发”，它并不那么看重在作用域中通过共享值互动（虽然这依然是允许的！）。它的目标是将一个长时间运行的“进程”打断为许多步骤或批处理，以至于其他的并发“进程”有机会将它们的操作穿插进事件轮询队列。</p>
-<p>举个例子，考虑一个Ajax应答处理器，它需要遍历一个很长的结果列表来将值变形。我们将使用<code>Array#map(..)</code>来让代码短一些：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = [];</div><div class="line"></div><div class="line"><span class="comment">// `response(..)`从Ajax调用收到一个结果数组</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">	<span class="comment">// 连接到既存的`res`数组上</span></div><div class="line">	res = res.concat(</div><div class="line">		<span class="comment">// 制造一个新的变形过的数组，所有的`data`值都翻倍</span></div><div class="line">		data.map( <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">			<span class="keyword">return</span> val * <span class="number">2</span>;</div><div class="line">		&#125; )</div><div class="line">	);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, response );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, response );</div></pre></td></tr></table></figure>
-<p>如果<code>&quot;http://some.url.1&quot;</code>首先返回它的结果，整个结果列表将会一次性映射进<code>res</code>。如果只有几千或更少的结果记录，一般来说不是什么大事。但假如有1千万个记录，那么就可能会花一段时间运行（在强大的笔记本电脑上花几秒钟，在移动设备上花的时间长得多，等等）。</p>
-<p>当这样的“处理”运行时，页面上没有任何事情可以发生，包括不能有另一个<code>response(..)</code>调用，不能有UI更新，甚至不能有用户事件比如滚动，打字，按钮点击等。非常痛苦。</p>
-<p>所以，为了制造协作性更强、更友好而且不独占事件轮询队列的并发系统，你可以在一个异步批处理中处理这些结果，在批处理的每一步都“让出”事件轮询来让其他等待的事件发生。</p>
-<p>这是一个非常简单的方法：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = [];</div><div class="line"></div><div class="line"><span class="comment">// `response(..)`从Ajax调用收到一个结果数组</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">	<span class="comment">// 我们一次只处理1000件</span></div><div class="line">	<span class="keyword">var</span> chunk = data.splice( <span class="number">0</span>, <span class="number">1000</span> );</div><div class="line"></div><div class="line">	<span class="comment">// 连接到既存的`res`数组上</span></div><div class="line">	res = res.concat(</div><div class="line">		<span class="comment">// 制造一个新的变形过的数组，所有的`data`值都翻倍</span></div><div class="line">		chunk.map( <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">			<span class="keyword">return</span> val * <span class="number">2</span>;</div><div class="line">		&#125; )</div><div class="line">	);</div><div class="line"></div><div class="line">	<span class="comment">// 还有东西要处理吗？</span></div><div class="line">	<span class="keyword">if</span> (data.length &gt; <span class="number">0</span>) &#123;</div><div class="line">		<span class="comment">// 异步规划下一个批处理</span></div><div class="line">		setTimeout( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			response( data );</div><div class="line">		&#125;, <span class="number">0</span> );</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ajax(..) 是某个包中任意的Ajax函数</span></div><div class="line">ajax( <span class="string">"http://some.url.1"</span>, response );</div><div class="line">ajax( <span class="string">"http://some.url.2"</span>, response );</div></pre></td></tr></table></figure>
-<p>我们以每次最大1000件作为一个块儿处理数据。这样，我们保证每个“进程”都是短时间运行的，即便这意味着会有许多后续的“进程”，在事件轮询队列上的穿插将会给我们一个响应性（性能）强得多的网站/应用程序。</p>
-<p>当然，我们没有对任何这些“进程”的顺序进行互动协调，所以在<code>res</code>中的结果的顺序是不可预知的。如果要求顺序，你需要使用我们之前讨论的互动技术，或者在本书后续章节中介绍的其他技术。</p>
-<p>我们使用<code>setTimeout(..0)</code>（黑科技）来异步排程，基本上它的意思是“将这个函数贴在事件轮询队列的末尾”。</p>
-<p><strong>注意：</strong> 从技术上讲，<code>setTimeout(..0)</code>没有直接将一条记录插入事件轮询队列。计时器将会在下一个运行机会将事件插入。比如，两个连续的<code>setTimeout(..0)</code>调用不会严格保证以调用的顺序被处理，所以我们可能看到各种时间偏移的情况，使这样的事件的顺序是不可预知的。在Node.js中，一个相似的方式是<code>process.nextTick(..)</code>。不管那将会有多方便（而且通常性能更好），（还）没有一个直接的方法可以横跨所有环境来保证异步事件顺序。我们会在下一节详细讨论这个话题。</p>
-<h2 id="Jobs"><a href="#Jobs" class="headerlink" title="Jobs"></a>Jobs</h2><p>在ES6中，在事件轮询队列之上引入了一层新概念，称为“工作队列（Job queue）”。你最有可能接触它的地方是在Promises（见第三章）的异步行为中。</p>
-<p>不幸的是，它目前是一个没有公开API的机制，因此要演示它有些兜圈子。我们不得不仅仅在概念上描述它，这样当我们在第三章中讨论异步行为时，你将会理解那些动作行为是如何排程与处理的。</p>
-<p>那么，我能找到的考虑它的最佳方式是：“工作队列”是一个挂靠在事件轮询队列的每个tick末尾的队列。在事件轮询的一个tick期间内，某些可能发生的隐含异步动作的行为将不会导致一个全新的事件加入事件轮询队列，而是在当前tick的工作队列的末尾加入一个新的记录（也就是一个Job）。</p>
-<p>它好像是在说，“哦，另一件需要我 <em>稍后</em> 去做的事儿，但是保证它在其他任何事情发生之间发生。”</p>
-<p>或者，用一个比喻：事件轮询队列就像一个游乐园项目，一旦你乘坐完一次，你就不得不去队尾排队来乘坐下一次。而工作队列就像乘坐完后，立即插队乘坐下一次。</p>
-<p>一个Job还可能会导致更多的Job被加入同一个队列的末尾。所以，一个在理论上可能的情况是，Job“轮询”（一个Job持续不断地加入其他Job等）会无限地转下去，从而拖住程序不能移动到一下一个事件轮询tick。这与在你的代码中表达一个长时间运行或无限循环（比如<code>while (true) ..</code>）在概念上几乎是一样的。</p>
-<p>Job的精神有点儿像<code>setTimeout(..0)</code>黑科技，但以一种定义明确得多的方式实现，而且保证顺序： <strong>稍后，但尽快</strong>。</p>
-<p>让我们想象一个用于Job排程的API，并叫它<code>schedule(..)</code>。考虑如下代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log( <span class="string">"A"</span> );</div><div class="line"></div><div class="line">setTimeout( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log( <span class="string">"B"</span> );</div><div class="line">&#125;, <span class="number">0</span> );</div><div class="line"></div><div class="line"><span class="comment">// 理论上的 "Job API"</span></div><div class="line">schedule( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log( <span class="string">"C"</span> );</div><div class="line"></div><div class="line">	schedule( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="built_in">console</span>.log( <span class="string">"D"</span> );</div><div class="line">	&#125; );</div><div class="line">&#125; );</div></pre></td></tr></table></figure>
-<p>你肯能会期望它打印出<code>A B C D</code>，但是它将会打出<code>A C D B</code>，因为Job发生在当前的事件轮询tick的末尾，而定时器会在 <em>下一个</em> 事件轮询tick（如果可用的话！）触发排程。</p>
-<p>在第三章中，我们会看到Promises的异步行为是基于Job的，所以搞明白它与事件轮询行为的联系是很重要的。</p>
-<h2 id="语句排序"><a href="#语句排序" class="headerlink" title="语句排序"></a>语句排序</h2><p>我们在代码中表达语句的顺序没有必要与JS引擎执行它们的顺序相同。这可能看起来像是个奇怪的论断，所以我们简单地探索一下。</p>
-<p>但在我们开始之前，我们应当对一些事情十分清楚：从程序的角度看，语言的规则/文法（参见本丛书的 <em>类型与文法</em>）为语句的顺序决定了一个非常可预知、可靠的行为。所以我们将要讨论的是在你的JS程序中 <strong>应当永远观察不到的东西</strong>。</p>
-<p><strong>警告：</strong> 如果你曾经 <em>观察到</em> 过我们将要描述的编译器语句重排，那明显是违反了语言规范，而且无疑是那个JS引擎的Bug——它应当被报告并且修复！但是更常见的是你 <em>怀疑</em> JS引擎里发生了什么疯狂的事，而事实上它只是你自己代码中的一个Bug（可能是一个“竞合状态”）——所以先检查那里，多检查几遍。在JS调试器使用断点并一行一行地步过你的代码，将是帮你在 <em>你的代码</em> 中找出这样的Bug的最强大的工具。</p>
-<p>考虑下面的代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a, b;</div><div class="line"></div><div class="line">a = <span class="number">10</span>;</div><div class="line">b = <span class="number">30</span>;</div><div class="line"></div><div class="line">a = a + <span class="number">1</span>;</div><div class="line">b = b + <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log( a + b ); <span class="comment">// 42</span></div></pre></td></tr></table></figure>
-<p>这段代码没有任何异步表达（除了早先讨论的罕见的<code>console</code>异步I/O），所以最有可能的推测是它会一行一行地、从上到下地处理。</p>
-<p>但是，JS引擎 <em>有可能</em>，在编译完这段代码后（是的，JS是被编译的——见本丛书的 <em>作用域与闭包</em>）发现有机会通过（安全地）重新安排这些语句的顺序来使你的代码运行得更快。实质上，只要你观察不到重排，一切都是合理的。</p>
-<p>举个例子，引擎可能会发现如果实际上这样执行代码会更快：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a, b;</div><div class="line"></div><div class="line">a = <span class="number">10</span>;</div><div class="line">a++;</div><div class="line"></div><div class="line">b = <span class="number">30</span>;</div><div class="line">b++;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log( a + b ); <span class="comment">// 42</span></div></pre></td></tr></table></figure>
-<p>或者是这样：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a, b;</div><div class="line"></div><div class="line">a = <span class="number">11</span>;</div><div class="line">b = <span class="number">31</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log( a + b ); <span class="comment">// 42</span></div></pre></td></tr></table></figure>
-<p>或者甚至是：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 因为`a`和`b`都不再被使用，我们可以内联而且根本不需要它们!</span></div><div class="line"><span class="built_in">console</span>.log( <span class="number">42</span> ); <span class="comment">// 42</span></div></pre></td></tr></table></figure>
-<p>在所有这些情况下，JS引擎在它的编译期间进行着安全的优化，而最终的 <em>可观察到</em> 的结果将是相同的。</p>
-<p>但也有一个场景，这些特殊的优化是不安全的，因而也是不被允许的（当然，不是说它一点儿都没优化）：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a, b;</div><div class="line"></div><div class="line">a = <span class="number">10</span>;</div><div class="line">b = <span class="number">30</span>;</div><div class="line"></div><div class="line"><span class="comment">// 我们需要`a`和`b`递增之前的状态！</span></div><div class="line"><span class="built_in">console</span>.log( a * b ); <span class="comment">// 300</span></div><div class="line"></div><div class="line">a = a + <span class="number">1</span>;</div><div class="line">b = b + <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log( a + b ); <span class="comment">// 42</span></div></pre></td></tr></table></figure>
-<p>编译器重排会造成可观测的副作用（因此绝不会被允许）的其他例子，包括任何带有副作用的函数调用（特别是getter函数），或者ES6的Proxy对象（参见本丛书的 <em>ES6与未来</em>）。</p>
-<p>考虑如下代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log( b );</div><div class="line">	<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a, b, c;</div><div class="line"></div><div class="line"><span class="comment">// ES5.1 getter 字面语法</span></div><div class="line">c = &#123;</div><div class="line">	get bar() &#123;</div><div class="line">		<span class="built_in">console</span>.log( a );</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">a = <span class="number">10</span>;</div><div class="line">b = <span class="number">30</span>;</div><div class="line"></div><div class="line">a += foo();				<span class="comment">// 30</span></div><div class="line">b += c.bar;				<span class="comment">// 11</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log( a + b );	<span class="comment">// 42</span></div></pre></td></tr></table></figure>
-<p>如果不是为了这个代码段中的<code>console.log(..)</code>语句（只是作为这个例子中观察副作用的方便形式），JS引擎将会更加自由，如果它想（谁知道它想不想！？），它会重排这段代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ...</span></div><div class="line"></div><div class="line">a = <span class="number">10</span> + foo();</div><div class="line">b = <span class="number">30</span> + c.bar;</div><div class="line"></div><div class="line"><span class="comment">// ...</span></div></pre></td></tr></table></figure>
-<p>多亏JS语义，我们不会观测到看起来很危险的编译器语句重排，但是理解源代码被编写的方式（从上到下）与它在编译后运行的方式之间的联系是多么微弱，依然是很重要的。</p>
-<p>编译器语句重排几乎是并发与互动的微型比喻。作为一个一般概念，这样的意识可以帮你更好地理解异步JS代码流问题。</p>
-<h2 id="复习"><a href="#复习" class="headerlink" title="复习"></a>复习</h2><p>一个JavaScript程序总是被打断为两个或更多的代码块儿，第一个代码块儿 <em>现在</em> 运行，下一个代码块儿 <em>稍后</em> 运行，来响应一个事件。虽然程序是一块儿一块儿地被执行的，但它们都共享相同的程序作用域和状态，所以对状态的每次修改都是在前一个状态之上的。</p>
-<p>不论何时有事件要运行，<em>事件轮询</em> 将运行至队列为空。事件轮询的每次迭代称为一个“tick”。用户交互，IO，和定时器会将事件在事件队列中排队。</p>
-<p>在任意给定的时刻，一次只有一个队列中的事件可以被处理。当事件执行时，他可以直接或间接地导致一个或更多的后续事件。</p>
-<p>并发是当两个或多个事件链条随着事件相互穿插，因此从高层的角度来看，它们在 <em>同时</em> 运行（即便在给定的某一时刻只有一个事件在被处理）。</p>
-<p>在这些并发“进程”之间进行某种形式的互动协调通常是有必要的，比如保证顺序或防止“竞合状态”。这些“进程”还可以 <em>协作</em>：通过将它们自己打断为小的代码块儿来允许其他“进程”穿插。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://feinikes.github.io/2017/03/03/template/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Phoenix">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Phoenix's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/03/template/" itemprop="url">
-                  原生的模板引擎
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-03T17:30:43+08:00">
-                2017-03-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1999/xhtml"</span> <span class="attr">xml:lang</span>=<span class="string">"en"</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>原生的模板引擎<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">style</span>=<span class="string">"background: white; "</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>原生的模板引擎<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/tempalte"</span> <span class="attr">id</span>=<span class="string">"tmpl"</span>&gt;</span><span class="xml"></span></div><div class="line">        <span class="tag">&lt;<span class="name">%</span> <span class="attr">name</span> %&gt;</span>，<span class="tag">&lt;<span class="name">%</span> <span class="attr">age</span> %&gt;</span>岁，在 <span class="tag">&lt;<span class="name">%</span> <span class="attr">company</span> %&gt;</span> 上班</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="xml"></span></div><div class="line">    // 创建对象</div><div class="line">    var obj = &#123;</div><div class="line">        "name": "张展",</div><div class="line">        "age": 30,</div><div class="line">        "company": "乾康金融"</div><div class="line">    &#125;</div><div class="line">    // 把上面的obj中的数据绑定到tmpl中,输出完整的一句话</div><div class="line">    // 正则 认识<span class="tag">&lt;<span class="name">%</span> <span class="attr">value</span> %&gt;</span>格式</div><div class="line">    var reg = /<span class="tag">&lt;<span class="name">%\s*([^%</span>&gt;</span>]\S+)\s*%&gt;/;</div><div class="line"></div><div class="line">    function tempalte(id, obj) &#123;</div><div class="line">        var html = document.getElementById(id).innerHTML;</div><div class="line">        // 初始化</div><div class="line">        var _exec = null;</div><div class="line">        while (_exec = (reg.exec(html))) &#123;</div><div class="line">            html = html.replace(_exec[0], obj[_exec[1]]);</div><div class="line">        &#125;</div><div class="line">        return html;</div><div class="line">    &#125;</div><div class="line">    document.write(tempalte('tmpl', obj))</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>张展，30岁，在 乾康金融 上班</p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://feinikes.github.io/2017/03/01/eslintrulus/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Phoenix">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Phoenix's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/01/eslintrulus/" itemprop="url">
-                  ESLint规则配置说明
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-01T15:24:37+08:00">
-                2017-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="ESLint语法规则"><a href="#ESLint语法规则" class="headerlink" title="ESLint语法规则"></a><a href="http://eslint.cn" target="_blank" rel="external">ESLint</a>语法规则</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line"><span class="string">"no-alert"</span>: 0,//禁止使用alert confirm prompt</div><div class="line"><span class="string">"no-array-constructor"</span>: 2,//禁止使用数组构造器</div><div class="line"><span class="string">"no-bitwise"</span>: 0,//禁止使用按位运算符</div><div class="line"><span class="string">"no-caller"</span>: 1,//禁止使用arguments.caller或arguments.callee</div><div class="line"><span class="string">"no-catch-shadow"</span>: 2,//禁止catch子句参数与外部作用域变量同名</div><div class="line"><span class="string">"no-class-assign"</span>: 2,//禁止给类赋值</div><div class="line"><span class="string">"no-cond-assign"</span>: 2,//禁止在条件表达式中使用赋值语句</div><div class="line"><span class="string">"no-console"</span>: 2,//禁止使用console</div><div class="line"><span class="string">"no-const-assign"</span>: 2,//禁止修改const声明的变量</div><div class="line"><span class="string">"no-constant-condition"</span>: 2,//禁止在条件中使用常量表达式 <span class="keyword">if</span>(<span class="literal">true</span>) <span class="keyword">if</span>(1)</div><div class="line"><span class="string">"no-continue"</span>: 0,//禁止使用<span class="built_in">continue</span></div><div class="line"><span class="string">"no-control-regex"</span>: 2,//禁止在正则表达式中使用控制字符</div><div class="line"><span class="string">"no-debugger"</span>: 2,//禁止使用debugger</div><div class="line"><span class="string">"no-delete-var"</span>: 2,//不能对var声明的变量使用delete操作符</div><div class="line"><span class="string">"no-div-regex"</span>: 1,//不能使用看起来像除法的正则表达式/=foo/</div><div class="line"><span class="string">"no-dupe-keys"</span>: 2,//在创建对象字面量时不允许键重复 &#123;a:1,a:1&#125;</div><div class="line"><span class="string">"no-dupe-args"</span>: 2,//函数参数不能重复</div><div class="line"><span class="string">"no-duplicate-case"</span>: 2,//switch中的<span class="keyword">case</span>标签不能重复</div><div class="line"><span class="string">"no-else-return"</span>: 2,//如果<span class="keyword">if</span>语句里面有<span class="built_in">return</span>,后面不能跟<span class="keyword">else</span>语句</div><div class="line"><span class="string">"no-empty"</span>: 2,//块语句中的内容不能为空</div><div class="line"><span class="string">"no-empty-character-class"</span>: 2,//正则表达式中的[]内容不能为空</div><div class="line"><span class="string">"no-empty-label"</span>: 2,//禁止使用空label</div><div class="line"><span class="string">"no-eq-null"</span>: 2,//禁止对null使用==或!=运算符</div><div class="line"><span class="string">"no-eval"</span>: 1,//禁止使用<span class="built_in">eval</span></div><div class="line"><span class="string">"no-ex-assign"</span>: 2,//禁止给catch语句中的异常参数赋值</div><div class="line"><span class="string">"no-extend-native"</span>: 2,//禁止扩展native对象</div><div class="line"><span class="string">"no-extra-bind"</span>: 2,//禁止不必要的函数绑定</div><div class="line"><span class="string">"no-extra-boolean-cast"</span>: 2,//禁止不必要的bool转换</div><div class="line"><span class="string">"no-extra-parens"</span>: 2,//禁止非必要的括号</div><div class="line"><span class="string">"no-extra-semi"</span>: 2,//禁止多余的冒号</div><div class="line"><span class="string">"no-fallthrough"</span>: 1,//禁止switch穿透</div><div class="line"><span class="string">"no-floating-decimal"</span>: 2,//禁止省略浮点数中的0 .5 3.</div><div class="line"><span class="string">"no-func-assign"</span>: 2,//禁止重复的函数声明</div><div class="line"><span class="string">"no-implicit-coercion"</span>: 1,//禁止隐式转换</div><div class="line"><span class="string">"no-implied-eval"</span>: 2,//禁止使用隐式<span class="built_in">eval</span></div><div class="line"><span class="string">"no-inline-comments"</span>: 0,//禁止行内备注</div><div class="line"><span class="string">"no-inner-declarations"</span>: [2, <span class="string">"functions"</span>],//禁止在块语句中使用声明（变量或函数）</div><div class="line"><span class="string">"no-invalid-regexp"</span>: 2,//禁止无效的正则表达式</div><div class="line"><span class="string">"no-invalid-this"</span>: 2,//禁止无效的this，只能用在构造器，类，对象字面量</div><div class="line"><span class="string">"no-irregular-whitespace"</span>: 2,//不能有不规则的空格</div><div class="line"><span class="string">"no-iterator"</span>: 2,//禁止使用__iterator__ 属性</div><div class="line"><span class="string">"no-label-var"</span>: 2,//label名不能与var声明的变量名相同</div><div class="line"><span class="string">"no-labels"</span>: 2,//禁止标签声明</div><div class="line"><span class="string">"no-lone-blocks"</span>: 2,//禁止不必要的嵌套块</div><div class="line"><span class="string">"no-lonely-if"</span>: 2,//禁止<span class="keyword">else</span>语句内只有<span class="keyword">if</span>语句</div><div class="line"><span class="string">"no-loop-func"</span>: 1,//禁止在循环中使用函数（如果没有引用外部变量不形成闭包就可以）</div><div class="line"><span class="string">"no-mixed-requires"</span>: [0, <span class="literal">false</span>],//声明时不能混用声明类型</div><div class="line"><span class="string">"no-mixed-spaces-and-tabs"</span>: [2, <span class="literal">false</span>],//禁止混用tab和空格</div><div class="line"><span class="string">"linebreak-style"</span>: [0, <span class="string">"windows"</span>],//换行风格</div><div class="line"><span class="string">"no-multi-spaces"</span>: 1,//不能用多余的空格</div><div class="line"><span class="string">"no-multi-str"</span>: 2,//字符串不能用\换行</div><div class="line"><span class="string">"no-multiple-empty-lines"</span>: [1, &#123;<span class="string">"max"</span>: 2&#125;],//空行最多不能超过2行</div><div class="line"><span class="string">"no-native-reassign"</span>: 2,//不能重写native对象</div><div class="line"><span class="string">"no-negated-in-lhs"</span>: 2,//<span class="keyword">in</span> 操作符的左边不能有!</div><div class="line"><span class="string">"no-nested-ternary"</span>: 0,//禁止使用嵌套的三目运算</div><div class="line"><span class="string">"no-new"</span>: 1,//禁止在使用new构造一个实例后不赋值</div><div class="line"><span class="string">"no-new-func"</span>: 1,//禁止使用new Function</div><div class="line"><span class="string">"no-new-object"</span>: 2,//禁止使用new Object()</div><div class="line"><span class="string">"no-new-require"</span>: 2,//禁止使用new require</div><div class="line"><span class="string">"no-new-wrappers"</span>: 2,//禁止使用new创建包装实例，new String new Boolean new Number</div><div class="line"><span class="string">"no-obj-calls"</span>: 2,//不能调用内置的全局对象，比如Math() JSON()</div><div class="line"><span class="string">"no-octal"</span>: 2,//禁止使用八进制数字</div><div class="line"><span class="string">"no-octal-escape"</span>: 2,//禁止使用八进制转义序列</div><div class="line"><span class="string">"no-param-reassign"</span>: 2,//禁止给参数重新赋值</div><div class="line"><span class="string">"no-path-concat"</span>: 0,//node中不能使用__dirname或__filename做路径拼接</div><div class="line"><span class="string">"no-plusplus"</span>: 0,//禁止使用++，--</div><div class="line"><span class="string">"no-process-env"</span>: 0,//禁止使用process.env</div><div class="line"><span class="string">"no-process-exit"</span>: 0,//禁止使用process.exit()</div><div class="line"><span class="string">"no-proto"</span>: 2,//禁止使用__proto__属性</div><div class="line"><span class="string">"no-redeclare"</span>: 2,//禁止重复声明变量</div><div class="line"><span class="string">"no-regex-spaces"</span>: 2,//禁止在正则表达式字面量中使用多个空格 /foo bar/</div><div class="line"><span class="string">"no-restricted-modules"</span>: 0,//如果禁用了指定模块，使用就会报错</div><div class="line"><span class="string">"no-return-assign"</span>: 1,//<span class="built_in">return</span> 语句中不能有赋值表达式</div><div class="line"><span class="string">"no-script-url"</span>: 0,//禁止使用javascript:void(0)</div><div class="line"><span class="string">"no-self-compare"</span>: 2,//不能比较自身</div><div class="line"><span class="string">"no-sequences"</span>: 0,//禁止使用逗号运算符</div><div class="line"><span class="string">"no-shadow"</span>: 2,//外部作用域中的变量不能与它所包含的作用域中的变量或参数同名</div><div class="line"><span class="string">"no-shadow-restricted-names"</span>: 2,//严格模式中规定的限制标识符不能作为声明时的变量名使用</div><div class="line"><span class="string">"no-spaced-func"</span>: 2,//函数调用时 函数名与()之间不能有空格</div><div class="line"><span class="string">"no-sparse-arrays"</span>: 2,//禁止稀疏数组， [1,,2]</div><div class="line"><span class="string">"no-sync"</span>: 0,//nodejs 禁止同步方法</div><div class="line"><span class="string">"no-ternary"</span>: 0,//禁止使用三目运算符</div><div class="line"><span class="string">"no-trailing-spaces"</span>: 1,//一行结束后面不要有空格</div><div class="line"><span class="string">"no-this-before-super"</span>: 0,//在调用super()之前不能使用this或super</div><div class="line"><span class="string">"no-throw-literal"</span>: 2,//禁止抛出字面量错误 throw <span class="string">"error"</span>;</div><div class="line"><span class="string">"no-undef"</span>: 1,//不能有未定义的变量</div><div class="line"><span class="string">"no-undef-init"</span>: 2,//变量初始化时不能直接给它赋值为undefined</div><div class="line"><span class="string">"no-undefined"</span>: 2,//不能使用undefined</div><div class="line"><span class="string">"no-unexpected-multiline"</span>: 2,//避免多行表达式</div><div class="line"><span class="string">"no-underscore-dangle"</span>: 1,//标识符不能以_开头或结尾</div><div class="line"><span class="string">"no-unneeded-ternary"</span>: 2,//禁止不必要的嵌套 var isYes = answer === 1 ? <span class="literal">true</span> : <span class="literal">false</span>;</div><div class="line"><span class="string">"no-unreachable"</span>: 2,//不能有无法执行的代码</div><div class="line"><span class="string">"no-unused-expressions"</span>: 2,//禁止无用的表达式</div><div class="line"><span class="string">"no-unused-vars"</span>: [2, &#123;<span class="string">"vars"</span>: <span class="string">"all"</span>, <span class="string">"args"</span>: <span class="string">"after-used"</span>&#125;],//不能有声明后未被使用的变量或参数</div><div class="line"><span class="string">"no-use-before-define"</span>: 2,//未定义前不能使用</div><div class="line"><span class="string">"no-useless-call"</span>: 2,//禁止不必要的call和apply</div><div class="line"><span class="string">"no-void"</span>: 2,//禁用void操作符</div><div class="line"><span class="string">"no-var"</span>: 0,//禁用var，用<span class="built_in">let</span>和const代替</div><div class="line"><span class="string">"no-warning-comments"</span>: [1, &#123; <span class="string">"terms"</span>: [<span class="string">"todo"</span>, <span class="string">"fixme"</span>, <span class="string">"xxx"</span>], <span class="string">"location"</span>: <span class="string">"start"</span> &#125;],//不能有警告备注</div><div class="line"><span class="string">"no-with"</span>: 2,//禁用with</div></pre></td></tr></table></figure>
-<h2 id="书写格式"><a href="#书写格式" class="headerlink" title="书写格式"></a>书写格式</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="string">"array-bracket-spacing"</span>: [2, <span class="string">"never"</span>],//是否允许非空数组里面有多余的空格</div><div class="line"><span class="string">"arrow-parens"</span>: 0,//箭头函数用小括号括起来</div><div class="line"><span class="string">"arrow-spacing"</span>: 0,//=&gt;的前/后括号</div><div class="line"><span class="string">"accessor-pairs"</span>: 0,//在对象中使用getter/setter</div><div class="line"><span class="string">"block-scoped-var"</span>: 0,//块语句中使用var</div><div class="line"><span class="string">"brace-style"</span>: [1, <span class="string">"1tbs"</span>],//大括号风格</div><div class="line"><span class="string">"callback-return"</span>: 1,//避免多次调用回调什么的</div><div class="line"><span class="string">"camelcase"</span>: 2,//强制驼峰法命名</div><div class="line"><span class="string">"comma-dangle"</span>: [2, <span class="string">"never"</span>],//对象字面量项尾不能有逗号</div><div class="line"><span class="string">"comma-spacing"</span>: 0,//逗号前后的空格</div><div class="line"><span class="string">"comma-style"</span>: [2, <span class="string">"last"</span>],//逗号风格，换行时在行首还是行尾</div><div class="line"><span class="string">"complexity"</span>: [0, 11],//循环复杂度</div><div class="line"><span class="string">"computed-property-spacing"</span>: [0, <span class="string">"never"</span>],//是否允许计算后的键名什么的</div><div class="line"><span class="string">"consistent-return"</span>: 0,//<span class="built_in">return</span> 后面是否允许省略</div><div class="line"><span class="string">"consistent-this"</span>: [2, <span class="string">"that"</span>],//this别名</div><div class="line"><span class="string">"constructor-super"</span>: 0,//非派生类不能调用super，派生类必须调用super</div><div class="line"><span class="string">"curly"</span>: [2, <span class="string">"all"</span>],//必须使用 <span class="function"><span class="title">if</span></span>()&#123;&#125; 中的&#123;&#125;</div><div class="line"><span class="string">"default-case"</span>: 2,//switch语句最后必须有default</div><div class="line"><span class="string">"dot-location"</span>: 0,//对象访问符的位置，换行的时候在行首还是行尾</div><div class="line"><span class="string">"dot-notation"</span>: [0, &#123; <span class="string">"allowKeywords"</span>: <span class="literal">true</span> &#125;],//避免不必要的方括号</div><div class="line"><span class="string">"eol-last"</span>: 0,//文件以单一的换行符结束</div><div class="line"><span class="string">"eqeqeq"</span>: 2,//必须使用全等</div><div class="line"><span class="string">"func-names"</span>: 0,//函数表达式必须有名字</div><div class="line"><span class="string">"func-style"</span>: [0, <span class="string">"declaration"</span>],//函数风格，规定只能使用函数声明/函数表达式</div><div class="line"><span class="string">"generator-star-spacing"</span>: 0,//生成器函数*的前后空格</div><div class="line"><span class="string">"guard-for-in"</span>: 0,//<span class="keyword">for</span> <span class="keyword">in</span>循环要用<span class="keyword">if</span>语句过滤</div><div class="line"><span class="string">"handle-callback-err"</span>: 0,//nodejs 处理错误</div><div class="line"><span class="string">"id-length"</span>: 0,//变量名长度</div><div class="line"><span class="string">"indent"</span>: [2, 4],//缩进风格</div><div class="line"><span class="string">"init-declarations"</span>: 0,//声明时必须赋初值</div><div class="line"><span class="string">"key-spacing"</span>: [0, &#123; <span class="string">"beforeColon"</span>: <span class="literal">false</span>, <span class="string">"afterColon"</span>: <span class="literal">true</span> &#125;],//对象字面量中冒号的前后空格</div><div class="line"><span class="string">"lines-around-comment"</span>: 0,//行前/行后备注</div><div class="line"><span class="string">"max-depth"</span>: [0, 4],//嵌套块深度</div><div class="line"><span class="string">"max-len"</span>: [0, 80, 4],//字符串最大长度</div><div class="line"><span class="string">"max-nested-callbacks"</span>: [0, 2],//回调嵌套深度</div><div class="line"><span class="string">"max-params"</span>: [0, 3],//函数最多只能有3个参数</div><div class="line"><span class="string">"max-statements"</span>: [0, 10],//函数内最多有几个声明</div><div class="line"><span class="string">"new-cap"</span>: 2,//函数名首行大写必须使用new方式调用，首行小写必须用不带new方式调用</div><div class="line"><span class="string">"new-parens"</span>: 2,//new时必须加小括号</div><div class="line"><span class="string">"newline-after-var"</span>: 2,//变量声明后是否需要空一行</div><div class="line"><span class="string">"object-curly-spacing"</span>: [0, <span class="string">"never"</span>],//大括号内是否允许不必要的空格</div><div class="line"><span class="string">"object-shorthand"</span>: 0,//强制对象字面量缩写语法</div><div class="line"><span class="string">"one-var"</span>: 1,//连续声明</div><div class="line"><span class="string">"operator-assignment"</span>: [0, <span class="string">"always"</span>],//赋值运算符 += -=什么的</div><div class="line"><span class="string">"operator-linebreak"</span>: [2, <span class="string">"after"</span>],//换行时运算符在行尾还是行首</div><div class="line"><span class="string">"padded-blocks"</span>: 0,//块语句内行首行尾是否要空行</div><div class="line"><span class="string">"prefer-const"</span>: 0,//首选const</div><div class="line"><span class="string">"prefer-spread"</span>: 0,//首选展开运算</div><div class="line"><span class="string">"prefer-reflect"</span>: 0,//首选Reflect的方法</div><div class="line"><span class="string">"quotes"</span>: [1, <span class="string">"single"</span>],//引号类型 `` <span class="string">""</span> <span class="string">''</span></div><div class="line"><span class="string">"quote-props"</span>:[2, <span class="string">"always"</span>],//对象字面量中的属性名是否强制双引号</div><div class="line"><span class="string">"radix"</span>: 2,//parseInt必须指定第二个参数</div><div class="line"><span class="string">"id-match"</span>: 0,//命名检测</div><div class="line"><span class="string">"require-yield"</span>: 0,//生成器函数必须有yield</div><div class="line"><span class="string">"semi"</span>: [2, <span class="string">"always"</span>],//语句强制分号结尾</div><div class="line"><span class="string">"semi-spacing"</span>: [0, &#123;<span class="string">"before"</span>: <span class="literal">false</span>, <span class="string">"after"</span>: <span class="literal">true</span>&#125;],//分号前后空格</div><div class="line"><span class="string">"sort-vars"</span>: 0,//变量声明时排序</div><div class="line"><span class="string">"space-after-keywords"</span>: [0, <span class="string">"always"</span>],//关键字后面是否要空一格</div><div class="line"><span class="string">"space-before-blocks"</span>: [0, <span class="string">"always"</span>],//不以新行开始的块&#123;前面要不要有空格</div><div class="line"><span class="string">"space-before-function-paren"</span>: [0, <span class="string">"always"</span>],//函数定义时括号前面要不要有空格</div><div class="line"><span class="string">"space-in-parens"</span>: [0, <span class="string">"never"</span>],//小括号里面要不要有空格</div><div class="line"><span class="string">"space-infix-ops"</span>: 0,//中缀操作符周围要不要有空格</div><div class="line"><span class="string">"space-return-throw-case"</span>: 2,//<span class="built_in">return</span> throw <span class="keyword">case</span>后面要不要加空格</div><div class="line"><span class="string">"space-unary-ops"</span>: [0, &#123; <span class="string">"words"</span>: <span class="literal">true</span>, <span class="string">"nonwords"</span>: <span class="literal">false</span> &#125;],//一元运算符的前/后要不要加空格</div><div class="line"><span class="string">"spaced-comment"</span>: 0,//注释风格要不要有空格什么的</div><div class="line"><span class="string">"strict"</span>: 2,//使用严格模式</div><div class="line"><span class="string">"use-isnan"</span>: 2,//禁止比较时使用NaN，只能用isNaN()</div><div class="line"><span class="string">"valid-jsdoc"</span>: 0,//jsdoc规则</div><div class="line"><span class="string">"valid-typeof"</span>: 2,//必须使用合法的typeof的值</div><div class="line"><span class="string">"vars-on-top"</span>: 2,//var必须放在作用域顶部</div><div class="line"><span class="string">"wrap-iife"</span>: [2, <span class="string">"inside"</span>],//立即执行函数表达式的小括号风格</div><div class="line"><span class="string">"wrap-regex"</span>: 0,//正则表达式字面量用小括号包起来</div><div class="line"><span class="string">"yoda"</span>: [2, <span class="string">"never"</span>]//禁止尤达条件</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+  </div>
 
 
           </div>
@@ -1785,6 +921,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -1804,8 +944,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -1867,6 +1016,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promises"><span class="nav-number">1.</span> <span class="nav-text">Promises</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Promise？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Promise？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#未来的值"><span class="nav-number">1.1.1.</span> <span class="nav-text">未来的值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#现在和稍后的值"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">现在和稍后的值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise值"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">Promise值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完成事件"><span class="nav-number">1.1.2.</span> <span class="nav-text">完成事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise“事件”"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">Promise“事件”</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thenable鸭子类型（Duck-Typing）"><span class="nav-number">1.2.</span> <span class="nav-text">Thenable鸭子类型（Duck Typing）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise的信任"><span class="nav-number">1.3.</span> <span class="nav-text">Promise的信任</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#调的太早"><span class="nav-number">1.3.1.</span> <span class="nav-text">调的太早</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调的太晚"><span class="nav-number">1.3.2.</span> <span class="nav-text">调的太晚</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise排程的怪现象"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Promise排程的怪现象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根本不调回调"><span class="nav-number">1.3.3.</span> <span class="nav-text">根本不调回调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调太少或太多次"><span class="nav-number">1.3.4.</span> <span class="nav-text">调太少或太多次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#没能传入任何参数-环境"><span class="nav-number">1.3.5.</span> <span class="nav-text">没能传入任何参数/环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#吞掉所有错误-异常"><span class="nav-number">1.3.6.</span> <span class="nav-text">吞掉所有错误/异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可信的Promise？"><span class="nav-number">1.3.7.</span> <span class="nav-text">可信的Promise？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信任建立了"><span class="nav-number">1.3.8.</span> <span class="nav-text">信任建立了</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链式流程"><span class="nav-number">1.4.</span> <span class="nav-text">链式流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#术语-Resolve（解析），Fulfill（完成），和Reject（拒绝）"><span class="nav-number">1.4.1.</span> <span class="nav-text">术语: Resolve（解析），Fulfill（完成），和Reject（拒绝）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误处理"><span class="nav-number">1.5.</span> <span class="nav-text">错误处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#绝望的深渊"><span class="nav-number">1.5.1.</span> <span class="nav-text">绝望的深渊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理未被捕获的错误"><span class="nav-number">1.5.2.</span> <span class="nav-text">处理未被捕获的错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#成功的深渊"><span class="nav-number">1.5.3.</span> <span class="nav-text">成功的深渊</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise模式"><span class="nav-number">1.6.</span> <span class="nav-text">Promise模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-all"><span class="nav-number">1.6.1.</span> <span class="nav-text">Promise.all([ .. ])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-race"><span class="nav-number">1.6.2.</span> <span class="nav-text">Promise.race([ .. ])</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#超时竞合"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">超时竞合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#“Finally”"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">“Finally”</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#all-与-race-的变种"><span class="nav-number">1.6.3.</span> <span class="nav-text">all([ .. ]) 与 race([ .. ]) 的变种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发迭代"><span class="nav-number">1.6.4.</span> <span class="nav-text">并发迭代</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-API概览"><span class="nav-number">1.7.</span> <span class="nav-text">Promise API概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#new-Promise-构造器"><span class="nav-number">1.7.1.</span> <span class="nav-text">new Promise(..)构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-resolve-和-Promise-reject"><span class="nav-number">1.7.2.</span> <span class="nav-text">Promise.resolve(..) 和 Promise.reject(..)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#then-和-catch"><span class="nav-number">1.7.3.</span> <span class="nav-text">then(..) 和 catch(..)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-all-和-Promise-race"><span class="nav-number">1.7.4.</span> <span class="nav-text">Promise.all([ .. ]) 和 Promise.race([ .. ])</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise的限制"><span class="nav-number">1.8.</span> <span class="nav-text">Promise的限制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顺序的错误处理"><span class="nav-number">1.8.1.</span> <span class="nav-text">顺序的错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单独的值"><span class="nav-number">1.8.2.</span> <span class="nav-text">单独的值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分割值"><span class="nav-number">1.8.2.1.</span> <span class="nav-text">分割值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#展开-散开参数"><span class="nav-number">1.8.2.2.</span> <span class="nav-text">展开/散开参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单次解析"><span class="nav-number">1.8.3.</span> <span class="nav-text">单次解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#惰性"><span class="nav-number">1.8.4.</span> <span class="nav-text">惰性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise不可撤销"><span class="nav-number">1.8.5.</span> <span class="nav-text">Promise不可撤销</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise性能"><span class="nav-number">1.8.6.</span> <span class="nav-text">Promise性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复习"><span class="nav-number">1.9.</span> <span class="nav-text">复习</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1974,6 +1139,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
